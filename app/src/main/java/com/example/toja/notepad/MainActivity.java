@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 FragmentManager fragmentManager = getSupportFragmentManager();
-                WriteFragment writeFragment = WriteFragment.newInstance("", "");
+                WriteFragment writeFragment = WriteFragment.newInstance();
                 writeFragment.show(fragmentManager, "");
             }
         });

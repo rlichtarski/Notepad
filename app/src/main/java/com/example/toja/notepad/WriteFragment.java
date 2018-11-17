@@ -5,25 +5,20 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 
 public class WriteFragment extends DialogFragment {
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
+    private EditText mEditText;
 
     public WriteFragment() {
         // Required empty public constructor
     }
 
-    public static WriteFragment newInstance(String param1,String param2) {
+    public static WriteFragment newInstance() {
         WriteFragment fragment = new WriteFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1,param1);
-        args.putString(ARG_PARAM2,param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -31,10 +26,7 @@ public class WriteFragment extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        //if(savedInstanceState == null) mEditTextValue = "";
     }
 
     @Override
@@ -42,6 +34,7 @@ public class WriteFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_write,container,false);
 
+        mEditText = rootView.findViewById(R.id.editText);
 
         return rootView;
     }
@@ -50,7 +43,6 @@ public class WriteFragment extends DialogFragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
-        outState.putString("EditText", );
+        outState.putString("EditText", mEditText.getText().toString());
     }
 }
