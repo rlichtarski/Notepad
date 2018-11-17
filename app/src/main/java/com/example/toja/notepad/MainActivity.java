@@ -10,7 +10,7 @@ import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
-    FloatingActionButton floatingActionButton;
+    private FloatingActionButton floatingActionButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

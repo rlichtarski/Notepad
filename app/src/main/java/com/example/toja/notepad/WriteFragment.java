@@ -42,8 +42,15 @@ public class WriteFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_write,container,false);
 
-        
+
         return rootView;
     }
 
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString("EditText", );
+    }
 }
