@@ -26,7 +26,6 @@ public class WriteFragment extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //if(savedInstanceState == null) mEditTextValue = "";
     }
 
     @Override
