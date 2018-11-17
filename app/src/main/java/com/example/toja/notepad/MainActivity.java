@@ -7,6 +7,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,9 +27,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 FragmentManager fragmentManager = getSupportFragmentManager();
-                WriteFragment writeFragment = WriteFragment.newInstance();
+                Date date = Calendar.getInstance().getTime();
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy, h:mm a");
+                String formattedDate = simpleDateFormat.format(date);
+                showToast(formattedDate);
+                WriteFragment writeFragment = WriteFragment.newInstance(formattedDate);
                 writeFragment.show(fragmentManager, "");
             }
         });
+    }
+
+    private void showToast(String formatted) {
+        Toast.makeText(this, formatted, Toast.LENGTH_SHORT).show();
     }
 }

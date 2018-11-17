@@ -21,6 +21,7 @@
                 android:layout_height="wrap_content">
 
                 <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/cancelMemoFAB"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
@@ -31,7 +32,17 @@
                     android:src="@drawable/round_clear_white"
                     app:backgroundTint="@color/colorCancelMemo" />
 
+                <TextView
+                    android:id="@+id/createdDateTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/cancelMemoFAB"
+                    android:layout_toStartOf="@+id/saveMemoFAB"
+                    android:gravity="center"
+                    android:layout_centerInParent="true"/>
+
                 <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/saveMemoFAB"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"

@@ -6,19 +6,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 
 public class WriteFragment extends DialogFragment {
 
+    private TextView mDateTextView;
     private EditText mEditText;
+    private String mCreatedDate;
 
     public WriteFragment() {
         // Required empty public constructor
     }
 
-    public static WriteFragment newInstance() {
+    public static WriteFragment newInstance(String createdDate) {
         WriteFragment fragment = new WriteFragment();
         Bundle args = new Bundle();
+        args.putString("createdDate", createdDate);
         fragment.setArguments(args);
         return fragment;
     }
@@ -26,6 +30,7 @@ public class WriteFragment extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mCreatedDate = getArguments().getString("createdDate");
     }
 
     @Override
@@ -34,6 +39,8 @@ public class WriteFragment extends DialogFragment {
         View rootView = inflater.inflate(R.layout.fragment_write,container,false);
 
         mEditText = rootView.findViewById(R.id.editText);
+        mDateTextView = rootView.findViewById(R.id.createdDateTextView);
+        mDateTextView.setText(mCreatedDate);
 
         return rootView;
     }
