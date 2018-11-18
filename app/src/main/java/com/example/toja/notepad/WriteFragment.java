@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class WriteFragment extends DialogFragment {
@@ -16,6 +17,7 @@ public class WriteFragment extends DialogFragment {
     private EditText mEditText;
     private String mCreatedDate;
     private FloatingActionButton mDiscardNoteFAB;
+    private FloatingActionButton mSaveNoteFAB;
 
     public WriteFragment() {
         // Required empty public constructor
@@ -41,6 +43,7 @@ public class WriteFragment extends DialogFragment {
         View rootView = inflater.inflate(R.layout.fragment_write,container,false);
 
         mDiscardNoteFAB = rootView.findViewById(R.id.cancelMemoFAB);
+        mSaveNoteFAB = rootView.findViewById(R.id.saveMemoFAB);
         mEditText = rootView.findViewById(R.id.editText);
         mDateTextView = rootView.findViewById(R.id.createdDateTextView);
         mDateTextView.setText(mCreatedDate);
@@ -52,7 +55,19 @@ public class WriteFragment extends DialogFragment {
             }
         });
 
+        mSaveNoteFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String note = mEditText.getText().toString();
+                showToast(note);
+            }
+        });
+
         return rootView;
+    }
+
+    private void showToast(String note) {
+        Toast.makeText(getActivity(), note, Toast.LENGTH_SHORT).show();
     }
 
 
