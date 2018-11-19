@@ -3,6 +3,7 @@ package com.example.toja.notepad;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ public class WriteFragment extends DialogFragment {
     private String mCreatedDate;
     private FloatingActionButton mDiscardNoteFAB;
     private FloatingActionButton mSaveNoteFAB;
+    private String mNote;
 
     public WriteFragment() {
         // Required empty public constructor
@@ -51,6 +53,11 @@ public class WriteFragment extends DialogFragment {
         mDiscardNoteFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String note = mEditText.getText().toString();
+
+                if(!note.isEmpty()) {
+                    showToast("Something is in EditText");
+                }
                 WriteFragment.this.dismiss();
             }
         });
@@ -58,8 +65,8 @@ public class WriteFragment extends DialogFragment {
         mSaveNoteFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String note = mEditText.getText().toString();
-                showToast(note);
+                mNote = mEditText.getText().toString();
+                showToast(mNote);
             }
         });
 
