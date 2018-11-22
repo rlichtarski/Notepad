@@ -1,5 +1,7 @@
 package com.example.toja.notepad;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
@@ -57,8 +59,10 @@ public class WriteFragment extends DialogFragment {
 
                 if(!note.isEmpty()) {
                     showToast("Something is in EditText");
+                    showAlertDialog();
+                } else {
+                    WriteFragment.this.dismiss();
                 }
-                WriteFragment.this.dismiss();
             }
         });
 
@@ -77,6 +81,25 @@ public class WriteFragment extends DialogFragment {
         Toast.makeText(getActivity(), note, Toast.LENGTH_SHORT).show();
     }
 
+    private void showAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage(R.string.save_your_changes)
+                .setPositiveButton(R.string.save,new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface,int i) {
+                        Toast.makeText(getActivity(), "Saved", Toast.LENGTH_SHORT).show();
+                        WriteFragment.this.dismiss();
+                    }
+                })
+                .setNegativeButton(R.string.discard,new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface,int i) {
+                        WriteFragment.this.dismiss();
+                    }
+                });
+        builder.create();
+        builder.show();
+    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
