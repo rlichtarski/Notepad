@@ -77,7 +77,7 @@ public class WriteFragment extends DialogFragment {
 
         return rootView;
     }
-
+    
     private void showToast(String note) {
         Toast.makeText(getActivity(), note, Toast.LENGTH_SHORT).show();
     }
