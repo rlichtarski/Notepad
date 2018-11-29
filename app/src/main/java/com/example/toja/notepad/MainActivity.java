@@ -26,15 +26,19 @@ public class MainActivity extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                Date date = Calendar.getInstance().getTime();
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy, h:mm a");
-                String formattedDate = simpleDateFormat.format(date);
-                showToast(formattedDate);
-                WriteFragment writeFragment = WriteFragment.newInstance(formattedDate);
-                writeFragment.show(fragmentManager, "");
+                showWriteFragment();
             }
         });
+    }
+
+    private void showWriteFragment() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Date date = Calendar.getInstance().getTime();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy, h:mm a");
+        String formattedDate = simpleDateFormat.format(date);
+        showToast(formattedDate);
+        WriteFragment writeFragment = WriteFragment.newInstance(formattedDate);
+        writeFragment.show(fragmentManager,"");
     }
 
     private void showToast(String formatted) {
