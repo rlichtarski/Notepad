@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 public class WriteFragment extends DialogFragment {
 
+    private DatabaseHelper databaseHelper;
     private TextView mDateTextView;
     private EditText mEditText;
     private String mCreatedDate;
@@ -47,6 +49,7 @@ public class WriteFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_write,container,false);
 
+        databaseHelper = new DatabaseHelper(getActivity());
         mDiscardNoteFAB = rootView.findViewById(R.id.cancelMemoFAB);
         mSaveNoteFAB = rootView.findViewById(R.id.saveMemoFAB);
         mEditText = rootView.findViewById(R.id.editText);
@@ -72,12 +75,20 @@ public class WriteFragment extends DialogFragment {
             public void onClick(View view) {
                 mNote = mEditText.getText().toString();
                 showToast(mNote);
+                addNoteToDatabase(mNote);
             }
         });
 
         return rootView;
     }
-    
+
+    private void addNoteToDatabase(String note) {
+        boolean isInserted = databaseHelper.insertData(note, mCreatedDate);
+        if(isInserted) {
+            Toast.makeText(getActivity(),"The Note is inserted into the database",Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void showToast(String note) {
         Toast.makeText(getActivity(), note, Toast.LENGTH_SHORT).show();
     }
