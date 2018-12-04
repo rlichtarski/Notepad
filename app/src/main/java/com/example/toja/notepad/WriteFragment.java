@@ -76,6 +76,7 @@ public class WriteFragment extends DialogFragment {
                 mNote = mEditText.getText().toString();
                 showToast(mNote);
                 addNoteToDatabase(mNote);
+                WriteFragment.this.dismiss();
             }
         });
 
