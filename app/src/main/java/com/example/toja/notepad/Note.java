@@ -4,18 +4,18 @@ public class Note {
 
     public static final String TABLE_NAME = "notes_table";
 
-    public static final String COL_1 = "ID";
-    public static final String COL_2 = "NOTE";
-    public static final String COL_3 = "DATE";
+    public static final String COL_ID = "ID";
+    public static final String COL_NOTE = "NOTE";
+    public static final String COL_DATE = "DATE";
 
     private int mId;
     private String mNote;
     private String mDate;
 
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "("
-            + COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + COL_2 + " TEXT,"
-            + COL_3 + " TEXT"
+            + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + COL_NOTE + " TEXT,"
+            + COL_DATE + " TEXT"
             + ")";
 
     public Note(int id, String note, String date) {
