@@ -67,7 +67,7 @@ public class WriteFragment extends DialogFragment {
 
                 if(!note.isEmpty()) {
                     showToast("Something is in EditText");
-                    showAlertDialog();
+                    showAlertDialog(note);
                 } else {
                     WriteFragment.this.dismiss();
                 }
@@ -102,7 +102,7 @@ public class WriteFragment extends DialogFragment {
         Toast.makeText(getActivity(), note, Toast.LENGTH_SHORT).show();
     }
 
-    private void showAlertDialog() {
+    private void showAlertDialog(final String note) {
         AlertDialog.Builder builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             builder = new AlertDialog.Builder(getActivity(), android.R.style.Theme_Material_Dialog_Alert);
@@ -116,7 +116,7 @@ public class WriteFragment extends DialogFragment {
                     public void onClick(DialogInterface dialogInterface,int i) {
                         Toast.makeText(getActivity(), "Saved", Toast.LENGTH_SHORT).show();
 
-                        //TODO: save the file
+                        addNoteToDatabase(note);
 
                         WriteFragment.this.dismiss();
                     }
