@@ -2,6 +2,7 @@ package com.example.toja.notepad;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 public class WriteFragment extends DialogFragment {
 
     private DatabaseHelper databaseHelper;
+    private SQLiteDatabase sqLiteDatabase;
     private TextView mDateTextView;
     private EditText mEditText;
     private String mCreatedDate;
@@ -50,6 +52,8 @@ public class WriteFragment extends DialogFragment {
         View rootView = inflater.inflate(R.layout.fragment_write,container,false);
 
         databaseHelper = new DatabaseHelper(getActivity());
+        sqLiteDatabase = databaseHelper.getReadableDatabase();
+
         mDiscardNoteFAB = rootView.findViewById(R.id.cancelMemoFAB);
         mSaveNoteFAB = rootView.findViewById(R.id.saveMemoFAB);
         mEditText = rootView.findViewById(R.id.editText);
@@ -74,9 +78,13 @@ public class WriteFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 mNote = mEditText.getText().toString();
-                showToast(mNote);
-                addNoteToDatabase(mNote);
-                WriteFragment.this.dismiss();
+                if(mNote.trim().length() == 0) {
+                    Toast.makeText(getActivity(),"The note is empty",Toast.LENGTH_SHORT).show();
+                } else {
+                    showToast(mNote);
+                    addNoteToDatabase(mNote);
+                    WriteFragment.this.dismiss();
+                }
             }
         });
 
