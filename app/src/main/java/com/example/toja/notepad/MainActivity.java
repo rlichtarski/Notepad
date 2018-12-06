@@ -1,8 +1,6 @@
 package com.example.toja.notepad;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.provider.ContactsContract;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -18,12 +16,14 @@ public class MainActivity extends AppCompatActivity {
 
     private FloatingActionButton floatingActionButton;
     private DatabaseHelper databaseHelper;
+    private SQLiteDatabase sqLiteDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         databaseHelper = new DatabaseHelper(this);
+        sqLiteDatabase = databaseHelper.getReadableDatabase();
 
         floatingActionButton = findViewById(R.id.floatingActionButton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {

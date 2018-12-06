@@ -20,7 +20,6 @@ import android.widget.Toast;
 public class WriteFragment extends DialogFragment {
 
     private DatabaseHelper databaseHelper;
-    private SQLiteDatabase sqLiteDatabase;
     private TextView mDateTextView;
     private EditText mEditText;
     private String mCreatedDate;
@@ -52,7 +51,6 @@ public class WriteFragment extends DialogFragment {
         View rootView = inflater.inflate(R.layout.fragment_write,container,false);
 
         databaseHelper = new DatabaseHelper(getActivity());
-        sqLiteDatabase = databaseHelper.getReadableDatabase();
 
         mDiscardNoteFAB = rootView.findViewById(R.id.cancelMemoFAB);
         mSaveNoteFAB = rootView.findViewById(R.id.saveMemoFAB);

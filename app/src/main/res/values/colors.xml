@@ -2,7 +2,8 @@
 <resources>
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorAccent">#00c6ae</color>
     <color name="colorSaveMemo">#00c853</color>
     <color name="colorCancelMemo">#f44336</color>
+    <color name="noteText">#232323</color>
 </resources>
