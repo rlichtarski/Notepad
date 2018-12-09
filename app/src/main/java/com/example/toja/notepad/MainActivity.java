@@ -12,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
-import com.fondesa.recyclerviewdivider.RecyclerViewDivider;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.text.SimpleDateFormat;
@@ -38,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        //RecyclerViewDivider.with(this).build().addTo(recyclerView);
         recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).marginResId(R.dimen.activity_margin).build());
         mRecyclerViewAdapter = new RecyclerViewAdapter(this, getAllItems());
         recyclerView.setAdapter(mRecyclerViewAdapter);
