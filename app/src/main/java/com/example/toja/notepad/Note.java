@@ -16,7 +16,7 @@ public class Note {
             + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + COL_NOTE + " TEXT,"
             + COL_DATE + " TEXT"
-            + ")";
+            + ");";
 
     public Note(int id, String note, String date) {
         this.mId = id;

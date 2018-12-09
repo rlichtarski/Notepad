@@ -16,9 +16,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 public class WriteFragment extends DialogFragment {
 
+    private MainActivity mainActivity;
+    private RecyclerViewAdapter recyclerViewAdapter;
     private DatabaseHelper databaseHelper;
     private TextView mDateTextView;
     private EditText mEditText;
@@ -52,6 +53,8 @@ public class WriteFragment extends DialogFragment {
 
         databaseHelper = new DatabaseHelper(getActivity());
 
+        mainActivity = new MainActivity();
+        recyclerViewAdapter = new RecyclerViewAdapter();
         mDiscardNoteFAB = rootView.findViewById(R.id.cancelMemoFAB);
         mSaveNoteFAB = rootView.findViewById(R.id.saveMemoFAB);
         mEditText = rootView.findViewById(R.id.editText);
@@ -91,6 +94,7 @@ public class WriteFragment extends DialogFragment {
 
     private void addNoteToDatabase(String note) {
         boolean isInserted = databaseHelper.insertData(note, mCreatedDate);
+
         if(isInserted) {
             Toast.makeText(getActivity(),"The Note is inserted into the database",Toast.LENGTH_SHORT).show();
         }

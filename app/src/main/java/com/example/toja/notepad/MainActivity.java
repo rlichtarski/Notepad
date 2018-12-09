@@ -1,10 +1,13 @@
 package com.example.toja.notepad;
 
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
@@ -16,14 +19,23 @@ public class MainActivity extends AppCompatActivity {
 
     private FloatingActionButton floatingActionButton;
     private DatabaseHelper databaseHelper;
-    private SQLiteDatabase sqLiteDatabase;
+    private RecyclerViewAdapter mRecyclerViewAdapter;
+    private SQLiteDatabase mDatabase;
+
+    public MainActivity() {}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         databaseHelper = new DatabaseHelper(this);
-        sqLiteDatabase = databaseHelper.getReadableDatabase();
+        mDatabase = databaseHelper.getReadableDatabase();
+
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerViewAdapter = new RecyclerViewAdapter(this, getAllItems());
+        recyclerView.setAdapter(mRecyclerViewAdapter);
 
         floatingActionButton = findViewById(R.id.floatingActionButton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -46,5 +58,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void showToast(String formatted) {
         Toast.makeText(this, formatted, Toast.LENGTH_SHORT).show();
+    }
+
+    private Cursor getAllItems() {
+        return mDatabase.query(Note.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                Note.COL_ID);
     }
 }
