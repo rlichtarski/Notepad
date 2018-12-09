@@ -64,7 +64,11 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, formatted, Toast.LENGTH_SHORT).show();
     }
 
-    private Cursor getAllItems() {
+    public void swap() {
+        mRecyclerViewAdapter.swapCursor(getAllItems());
+    }
+
+    public Cursor getAllItems() {
         return mDatabase.query(Note.TABLE_NAME,
                 null,
                 null,

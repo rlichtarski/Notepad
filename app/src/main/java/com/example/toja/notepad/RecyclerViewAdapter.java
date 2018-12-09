@@ -40,9 +40,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull NoteRecyclerViewHolder holder,int position) {
-        if(!mCursor.move(position)) {
+        if (!mCursor.moveToPosition(position)) {
             return;
         }
+
 
         String note = mCursor.getString(mCursor.getColumnIndex(Note.COL_NOTE));
         holder.noteText.setText(note);
