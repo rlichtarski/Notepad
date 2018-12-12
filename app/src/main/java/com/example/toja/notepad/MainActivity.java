@@ -32,14 +32,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        databaseHelper = new DatabaseHelper(this);
-        //mDatabase = databaseHelper.getReadableDatabase();
+        setRecyclerView();
+
+      /*  databaseHelper = new DatabaseHelper(this);
+        mDatabase = databaseHelper.getReadableDatabase();
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).marginResId(R.dimen.activity_margin).build());
         mRecyclerViewAdapter = new RecyclerViewAdapter(this, getAllItems());
-        recyclerView.setAdapter(mRecyclerViewAdapter);
+        recyclerView.setAdapter(mRecyclerViewAdapter); */
 
         floatingActionButton = findViewById(R.id.floatingActionButton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -48,6 +50,17 @@ public class MainActivity extends AppCompatActivity {
                 showWriteFragment();
             }
         });
+    }
+
+    private void setRecyclerView() {
+        databaseHelper = new DatabaseHelper(this);
+        mDatabase = databaseHelper.getReadableDatabase();
+
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).marginResId(R.dimen.activity_margin).build());
+        mRecyclerViewAdapter = new RecyclerViewAdapter(this, getAllItems());
+        recyclerView.setAdapter(mRecyclerViewAdapter);
     }
 
     private void showWriteFragment() {
@@ -65,11 +78,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void swap() {
-        mRecyclerViewAdapter.swapCursor(getAllItems());
+        setRecyclerView();
+        mRecyclerViewAdapter.swapCursor(getAllItems());      //recycler view is empty
     }
 
     public Cursor getAllItems() {
-        mDatabase = databaseHelper.getReadableDatabase();
         return mDatabase.query(Note.TABLE_NAME,
                 null,
                 null,

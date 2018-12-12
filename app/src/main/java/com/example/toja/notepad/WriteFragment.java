@@ -94,8 +94,7 @@ public class WriteFragment extends DialogFragment {
 
     private void addNoteToDatabase(String note) {
         boolean isInserted = databaseHelper.insertData(note, mCreatedDate);
-        MainActivity mainActivity = new MainActivity();
-        mainActivity.swap();
+        ((MainActivity) getActivity()).swap();
         if(isInserted) {
             Toast.makeText(getActivity(),"The Note is inserted into the database",Toast.LENGTH_SHORT).show();
         }
