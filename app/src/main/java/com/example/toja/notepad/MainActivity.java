@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         databaseHelper = new DatabaseHelper(this);
-        mDatabase = databaseHelper.getReadableDatabase();
+        //mDatabase = databaseHelper.getReadableDatabase();
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public Cursor getAllItems() {
+        mDatabase = databaseHelper.getReadableDatabase();
         return mDatabase.query(Note.TABLE_NAME,
                 null,
                 null,

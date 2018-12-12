@@ -44,7 +44,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             return;
         }
 
-
         String note = mCursor.getString(mCursor.getColumnIndex(Note.COL_NOTE));
         holder.noteText.setText(note);
     }
