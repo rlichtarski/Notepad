@@ -25,10 +25,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public class NoteRecyclerViewHolder extends RecyclerView.ViewHolder {
         public TextView noteText;
+        private TextView dateView;
 
         public NoteRecyclerViewHolder(View itemView) {
             super(itemView);
             noteText = itemView.findViewById(R.id.note);
+            dateView = itemView.findViewById(R.id.date);
         }
     }
 
@@ -48,6 +50,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         String note = mCursor.getString(mCursor.getColumnIndex(Note.COL_NOTE));
         holder.noteText.setText(note);
+
+        String date = mCursor.getString(mCursor.getColumnIndex(Note.COL_DATE));
+        holder.dateView.setText(date);
     }
 
 
