@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.toja.notepad.database.model.Note;
+
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.NoteRecyclerViewHolder>{
 
     private Context mContext;

@@ -1,4 +1,4 @@
-package com.example.toja.notepad;
+package com.example.toja.notepad.database.model;
 
 public class Note {
 

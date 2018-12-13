@@ -1,9 +1,11 @@
-package com.example.toja.notepad;
+package com.example.toja.notepad.database;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.example.toja.notepad.database.model.Note;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
