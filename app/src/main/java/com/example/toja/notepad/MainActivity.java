@@ -35,15 +35,6 @@ public class MainActivity extends AppCompatActivity {
 
         setRecyclerView();
 
-      /*  databaseHelper = new DatabaseHelper(this);
-        mDatabase = databaseHelper.getReadableDatabase();
-
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).marginResId(R.dimen.activity_margin).build());
-        mRecyclerViewAdapter = new RecyclerViewAdapter(this, getAllItems());
-        recyclerView.setAdapter(mRecyclerViewAdapter); */
-
         floatingActionButton = findViewById(R.id.floatingActionButton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
