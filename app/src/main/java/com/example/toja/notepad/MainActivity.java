@@ -45,9 +45,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setRecyclerView() {
-        databaseHelper = new DatabaseHelper(this);
-        mDatabase = databaseHelper.getReadableDatabase();
-
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).marginResId(R.dimen.activity_margin).build());
@@ -75,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public Cursor getAllItems() {
+        databaseHelper = new DatabaseHelper(this);
+        mDatabase = databaseHelper.getReadableDatabase();
         return mDatabase.query(Note.TABLE_NAME,
                 null,
                 null,
