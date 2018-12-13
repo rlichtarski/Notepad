@@ -66,9 +66,9 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, formatted, Toast.LENGTH_SHORT).show();
     }
 
-    public void swap() {
+    public void swap() {          //change the cursor
         setRecyclerView();
-        mRecyclerViewAdapter.swapCursor(getAllItems());      //recycler view is empty
+        mRecyclerViewAdapter.swapCursor(getAllItems());      
     }
 
     public Cursor getAllItems() {

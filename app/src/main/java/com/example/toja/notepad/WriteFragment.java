@@ -93,7 +93,7 @@ public class WriteFragment extends DialogFragment {
 
     private void addNoteToDatabase(String note) {
         boolean isInserted = databaseHelper.insertData(note, mCreatedDate);
-        ((MainActivity) getActivity()).swap();
+        ((MainActivity) getActivity()).swap();        //swap the cursor to refresh recycler view when item added
         if(isInserted) {
             Toast.makeText(getActivity(),"The Note is inserted into the database",Toast.LENGTH_SHORT).show();
         }
