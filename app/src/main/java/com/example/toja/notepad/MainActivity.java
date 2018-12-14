@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void swap() {          //change the cursor
         setRecyclerView();
-        mRecyclerViewAdapter.swapCursor(getAllItems());      
+        mRecyclerViewAdapter.swapCursor(getAllItems());
     }
 
     public Cursor getAllItems() {
