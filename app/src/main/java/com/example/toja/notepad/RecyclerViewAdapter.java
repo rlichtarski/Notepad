@@ -33,7 +33,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             super(itemView);
             noteText = itemView.findViewById(R.id.note);
             dateView = itemView.findViewById(R.id.date);
-            itemView.setTag(this);
             itemView.setOnClickListener(this);
         }
 
@@ -52,7 +51,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public NoteRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent,int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View view = inflater.inflate(R.layout.note_item, parent, false);
-
         return new NoteRecyclerViewHolder(view);
     }
 
