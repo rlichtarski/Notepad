@@ -14,7 +14,6 @@ import com.example.toja.notepad.database.model.Note;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.NoteRecyclerViewHolder>{
 
-    private View.OnClickListener onItemClickListener;
     private Context mContext;
     private Cursor mCursor;
 
@@ -25,16 +24,26 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         mCursor = cursor;
     }
 
-    public class NoteRecyclerViewHolder extends RecyclerView.ViewHolder {
+    public class NoteRecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public TextView noteText;
         private TextView dateView;
+        private ItemClickListener itemClickListener;
 
         public NoteRecyclerViewHolder(View itemView) {
             super(itemView);
             noteText = itemView.findViewById(R.id.note);
             dateView = itemView.findViewById(R.id.date);
             itemView.setTag(this);
-            itemView.setOnClickListener(onItemClickListener);
+            itemView.setOnClickListener(this);
+        }
+
+        public void setItemClickListener(ItemClickListener itemClickListener) {
+            this.itemClickListener = itemClickListener;
+        }
+
+        @Override
+        public void onClick(View view) {
+            itemClickListener.onClick(view, getAdapterPosition());
         }
     }
 
@@ -58,8 +67,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         String date = mCursor.getString(mCursor.getColumnIndex(Note.COL_DATE));
         holder.dateView.setText(date);
+
+        holder.setItemClickListener(new ItemClickListener() {
+            @Override
+            public void onClick(View view,int position) {
+                showToast("Position: " + position);
+            }
+        });
+
     }
 
+    private void showToast(String position) {
+        Toast.makeText(mContext,position, Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     public int getItemCount() {
@@ -76,9 +96,5 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         if(newCursor != null) {
             notifyDataSetChanged();
         }
-    }
-
-    public void setItemClickListener(View.OnClickListener clickListener) {
-        onItemClickListener = clickListener;
     }
 }

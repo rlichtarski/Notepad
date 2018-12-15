@@ -44,14 +44,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        recyclerView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) view.getTag();
-                int position = viewHolder.getAdapterPosition();
-                showToast("Position: " + position);
-            }
-        });
     }
 
     private void setRecyclerView() {
