@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseHelper databaseHelper;
     private RecyclerViewAdapter mRecyclerViewAdapter;
     private SQLiteDatabase mDatabase;
+    private RecyclerView recyclerView;
 
     public MainActivity() {}
 
@@ -42,10 +43,19 @@ public class MainActivity extends AppCompatActivity {
                 showWriteFragment();
             }
         });
+
+        recyclerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) view.getTag();
+                int position = viewHolder.getAdapterPosition();
+                showToast("Position: " + position);
+            }
+        });
     }
 
     private void setRecyclerView() {
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).marginResId(R.dimen.activity_margin).build());
         mRecyclerViewAdapter = new RecyclerViewAdapter(this, getAllItems());
