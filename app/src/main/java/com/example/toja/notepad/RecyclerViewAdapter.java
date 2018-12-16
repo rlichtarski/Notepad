@@ -1,8 +1,11 @@
 package com.example.toja.notepad;
 
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,9 +73,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void onClick(View view,int position) {
                 showToast("Position: " + position);
+                showDialog();
             }
         });
 
+    }
+
+    private void showDialog() {
+        NoteDialogFragment noteDialogFragment = new NoteDialogFragment();
+        AppCompatActivity activity = (AppCompatActivity) mContext;
+        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.activity_container, noteDialogFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     private void showToast(String position) {
