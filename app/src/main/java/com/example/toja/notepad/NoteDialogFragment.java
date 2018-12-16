@@ -53,16 +53,4 @@ public class NoteDialogFragment extends DialogFragment {
 
         return rootView;
     }
-
- /*   @NonNull
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Dialog dialog = new Dialog(getActivity());
-        dialog.setContentView(R.layout.fragment_note_dialog);
-
-        TextView note = dialog.findViewById(R.id.memo);
-        note.setText(mNote);
-
-        return dialog;
-    } */
 }
