@@ -6,8 +6,11 @@
     tools:context=".NoteDialogFragment">
 
     <TextView
+        android:id="@+id/memo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="FRAGMENT" />
+        android:textSize="18sp"
+        android:textColor="@color/noteText"
+        android:typeface="sans"/>
 
 </FrameLayout>

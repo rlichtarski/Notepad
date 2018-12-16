@@ -63,7 +63,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             return;
         }
 
-        String note = mCursor.getString(mCursor.getColumnIndex(Note.COL_NOTE));
+        final String note = mCursor.getString(mCursor.getColumnIndex(Note.COL_NOTE));
         holder.noteText.setText(note);
 
         String date = mCursor.getString(mCursor.getColumnIndex(Note.COL_DATE));
@@ -73,20 +73,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void onClick(View view,int position) {
                 showToast("Position: " + position);
-                showDialog();
+                showDialog(position, note);
             }
         });
 
     }
 
-    private void showDialog() {
-        NoteDialogFragment noteDialogFragment = new NoteDialogFragment();
-        AppCompatActivity activity = (AppCompatActivity) mContext;
+    private void showDialog(int position, String note) {
+        AppCompatActivity activity = (AppCompatActivity) mContext;                //need the context
         FragmentManager fragmentManager = activity.getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.activity_container, noteDialogFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        NoteDialogFragment noteDialogFragment = NoteDialogFragment.newInstance(position, note);
+        noteDialogFragment.show(fragmentTransaction, "fragmentTransaction");
     }
 
     private void showToast(String position) {
