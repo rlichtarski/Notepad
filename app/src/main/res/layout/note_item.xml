@@ -22,6 +22,8 @@
         android:layout_width="match_parent"
         android:layout_height="26dp"
         android:textSize="18sp"
-        android:textColor="@color/noteText" />
+        android:textColor="@color/noteText"
+        android:ellipsize="marquee"
+        android:singleLine="true"/>
 
 </LinearLayout>
