@@ -26,15 +26,17 @@ public class WriteFragment extends DialogFragment {
     private FloatingActionButton mDiscardNoteFAB;
     private FloatingActionButton mSaveNoteFAB;
     private String mNote;
+    private String initialNote;      //used to update the note, it shows the previous value
 
     public WriteFragment() {
         // Required empty public constructor
     }
 
-    public static WriteFragment newInstance(String noteDate) {
+    public static WriteFragment newInstance(String noteDate, String noteInEditText) {
         WriteFragment fragment = new WriteFragment();
         Bundle args = new Bundle();
         args.putString("noteDate", noteDate);
+        args.putString("noteInEditText", noteInEditText);
         fragment.setArguments(args);
         return fragment;
     }
@@ -43,6 +45,7 @@ public class WriteFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mNoteDate = getArguments().getString("noteDate");
+        initialNote = getArguments().getString("noteInEditText");
     }
 
     @Override
@@ -52,11 +55,16 @@ public class WriteFragment extends DialogFragment {
 
         databaseHelper = new DatabaseHelper(getActivity());
 
+        mEditText = rootView.findViewById(R.id.editText);
+
+        if(!initialNote.equals("")) {
+            mEditText.setText(initialNote);
+        }
+
         mainActivity = new MainActivity();
         recyclerViewAdapter = new RecyclerViewAdapter();
         mDiscardNoteFAB = rootView.findViewById(R.id.cancelMemoFAB);
         mSaveNoteFAB = rootView.findViewById(R.id.saveMemoFAB);
-        mEditText = rootView.findViewById(R.id.editText);
         mDateTextView = rootView.findViewById(R.id.createdDateTextView);
         mDateTextView.setText(mNoteDate);
 

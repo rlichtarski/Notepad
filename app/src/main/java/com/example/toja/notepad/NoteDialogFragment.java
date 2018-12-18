@@ -49,7 +49,7 @@ public class NoteDialogFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_note_dialog,container,false);
 
-        final String dateStringQuery = "SELECT " + Note.COL_DATE + " FROM " + Note.TABLE_NAME + " WHERE " + Note.COL_ID + " = " + mPosition + ";";
+        final String stringQuery = "SELECT " + Note.COL_DATE + ", " + Note.COL_NOTE + " FROM " + Note.TABLE_NAME + " WHERE " + Note.COL_ID + " = " + mPosition + ";";
 
         TextView note = rootView.findViewById(R.id.memo);
         note.setText(mNote);
@@ -66,7 +66,7 @@ public class NoteDialogFragment extends DialogFragment {
         mEditNoteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String query = getDateItem(dateStringQuery);
+                Cursor query = getItem(stringQuery);
                 openWriteFragment(query);
             }
         });
@@ -74,24 +74,32 @@ public class NoteDialogFragment extends DialogFragment {
         return rootView;
     }
 
-    private void openWriteFragment(String query) {
+    private void openWriteFragment(Cursor cursor) {
+        String dateFromQuery = "";
+        String noteFromQuery = "";
+        if(cursor.getCount() == 1) {
+            cursor.moveToFirst();
+            dateFromQuery = cursor.getString(cursor.getColumnIndex(Note.COL_DATE));
+            noteFromQuery = cursor.getString(cursor.getColumnIndex(Note.COL_NOTE));
+        }
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         FragmentManager fragmentManager = activity.getSupportFragmentManager();
-        WriteFragment writeFragment = WriteFragment.newInstance(query);
+        WriteFragment writeFragment = WriteFragment.newInstance(dateFromQuery, noteFromQuery);
         writeFragment.show(fragmentManager, "");
         NoteDialogFragment.this.dismiss();
     }
 
-    private String getDateItem(String date) {
-        String mDate = "";
+    private Cursor getItem(String query) {
+    //    String mDate = "";
+    //    String mNote = "";
         DatabaseHelper databaseHelper = new DatabaseHelper(getActivity());
         SQLiteDatabase sqLiteDatabase = databaseHelper.getReadableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery(date, null);
-        if(cursor.getCount() == 1) {
+        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+    /*    if(cursor.getCount() == 1) {
             cursor.moveToFirst();
             mDate = cursor.getString(cursor.getColumnIndex(Note.COL_DATE));
-        }
-        cursor.close();
-        return mDate;
+            mNote = cursor.getString(cursor.getColumnIndex(Note.COL_NOTE));
+        } */
+        return cursor;
     }
 }
