@@ -73,6 +73,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void onClick(View view,int position) {
                 showToast("Position: " + position);
+                position = position + 1;
                 showDialog(position, note);
             }
         });

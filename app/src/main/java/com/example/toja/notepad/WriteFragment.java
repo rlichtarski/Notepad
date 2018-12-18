@@ -22,7 +22,7 @@ public class WriteFragment extends DialogFragment {
     private DatabaseHelper databaseHelper;
     private TextView mDateTextView;
     private EditText mEditText;
-    private String mCreatedDate;
+    private String mNoteDate;
     private FloatingActionButton mDiscardNoteFAB;
     private FloatingActionButton mSaveNoteFAB;
     private String mNote;
@@ -31,10 +31,10 @@ public class WriteFragment extends DialogFragment {
         // Required empty public constructor
     }
 
-    public static WriteFragment newInstance(String createdDate) {
+    public static WriteFragment newInstance(String noteDate) {
         WriteFragment fragment = new WriteFragment();
         Bundle args = new Bundle();
-        args.putString("createdDate", createdDate);
+        args.putString("noteDate", noteDate);
         fragment.setArguments(args);
         return fragment;
     }
@@ -42,7 +42,7 @@ public class WriteFragment extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mCreatedDate = getArguments().getString("createdDate");
+        mNoteDate = getArguments().getString("noteDate");
     }
 
     @Override
@@ -58,7 +58,7 @@ public class WriteFragment extends DialogFragment {
         mSaveNoteFAB = rootView.findViewById(R.id.saveMemoFAB);
         mEditText = rootView.findViewById(R.id.editText);
         mDateTextView = rootView.findViewById(R.id.createdDateTextView);
-        mDateTextView.setText(mCreatedDate);
+        mDateTextView.setText(mNoteDate);
 
         mDiscardNoteFAB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,7 +92,7 @@ public class WriteFragment extends DialogFragment {
     }
 
     private void addNoteToDatabase(String note) {
-        boolean isInserted = databaseHelper.insertData(note, mCreatedDate);
+        boolean isInserted = databaseHelper.insertData(note, mNoteDate);
         ((MainActivity) getActivity()).swap();        //swap the cursor to refresh recycler view when item added
         if(isInserted) {
             Toast.makeText(getActivity(),"The Note is inserted into the database",Toast.LENGTH_SHORT).show();

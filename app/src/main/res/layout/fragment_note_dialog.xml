@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="12dp"
             android:textColor="@color/noteText"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:typeface="sans" />
     </LinearLayout>
 </RelativeLayout>
