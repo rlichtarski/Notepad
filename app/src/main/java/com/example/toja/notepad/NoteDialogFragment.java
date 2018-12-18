@@ -90,16 +90,8 @@ public class NoteDialogFragment extends DialogFragment {
     }
 
     private Cursor getItem(String query) {
-    //    String mDate = "";
-    //    String mNote = "";
         DatabaseHelper databaseHelper = new DatabaseHelper(getActivity());
         SQLiteDatabase sqLiteDatabase = databaseHelper.getReadableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
-    /*    if(cursor.getCount() == 1) {
-            cursor.moveToFirst();
-            mDate = cursor.getString(cursor.getColumnIndex(Note.COL_DATE));
-            mNote = cursor.getString(cursor.getColumnIndex(Note.COL_NOTE));
-        } */
-        return cursor;
+        return sqLiteDatabase.rawQuery(query, null);
     }
 }
