@@ -69,14 +69,14 @@ public class NoteDialogFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 Cursor query = getItem(stringQuery);
-                openWriteFragment(query);
+                openEditNoteFragment(query);
             }
         });
 
         return rootView;
     }
 
-    private void openWriteFragment(Cursor cursor) {
+    private void openEditNoteFragment(Cursor cursor) {
         String dateFromQuery = "";
         String noteFromQuery = "";
         if(cursor.getCount() == 1) {
@@ -87,8 +87,8 @@ public class NoteDialogFragment extends DialogFragment {
         cursor.close();
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         FragmentManager fragmentManager = activity.getSupportFragmentManager();
-        WriteFragment writeFragment = WriteFragment.newInstance(dateFromQuery, noteFromQuery);
-        writeFragment.show(fragmentManager, "");
+        EditNoteFragment editNoteFragment = EditNoteFragment.newInstance(dateFromQuery, noteFromQuery);
+        editNoteFragment.show(fragmentManager, "");
         NoteDialogFragment.this.dismiss();
     }
 

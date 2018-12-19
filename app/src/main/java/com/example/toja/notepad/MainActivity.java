@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy, h:mm a");
         String formattedDate = simpleDateFormat.format(date);
         showToast(formattedDate);
-        WriteFragment writeFragment = WriteFragment.newInstance(formattedDate, "");
+        WriteFragment writeFragment = WriteFragment.newInstance(formattedDate);
         writeFragment.show(fragmentManager,"");
     }
 
