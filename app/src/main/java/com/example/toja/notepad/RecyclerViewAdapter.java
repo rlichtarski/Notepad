@@ -73,7 +73,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void onClick(View view,int position) {
                 showToast("Position: " + position);
-                position = position + 1;
+                position = position + 1;         //the position of rv must match database (rv counts from 0, db from 1)
                 showDialog(position, note);
             }
         });

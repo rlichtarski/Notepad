@@ -49,7 +49,9 @@ public class NoteDialogFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_note_dialog,container,false);
 
-        final String stringQuery = "SELECT " + Note.COL_DATE + ", " + Note.COL_NOTE + " FROM " + Note.TABLE_NAME + " WHERE " + Note.COL_ID + " = " + mPosition + ";";
+        final String stringQuery = "SELECT " + Note.COL_DATE + ", " + Note.COL_NOTE
+                + " FROM " + Note.TABLE_NAME
+                + " WHERE " + Note.COL_ID + " = " + mPosition + ";";
 
         TextView note = rootView.findViewById(R.id.memo);
         note.setText(mNote);
@@ -82,6 +84,7 @@ public class NoteDialogFragment extends DialogFragment {
             dateFromQuery = cursor.getString(cursor.getColumnIndex(Note.COL_DATE));
             noteFromQuery = cursor.getString(cursor.getColumnIndex(Note.COL_NOTE));
         }
+        cursor.close();
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         FragmentManager fragmentManager = activity.getSupportFragmentManager();
         WriteFragment writeFragment = WriteFragment.newInstance(dateFromQuery, noteFromQuery);
