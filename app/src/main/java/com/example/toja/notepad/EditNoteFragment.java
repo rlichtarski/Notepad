@@ -68,6 +68,7 @@ public class EditNoteFragment extends DialogFragment {
                 } else {
                     Toast.makeText(getActivity(),"Note is not updated",Toast.LENGTH_SHORT).show();
                 }
+                ((MainActivity) getActivity()).swap();
                 EditNoteFragment.this.dismiss();
             }
         });
