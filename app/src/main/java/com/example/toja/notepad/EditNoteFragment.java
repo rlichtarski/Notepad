@@ -62,8 +62,12 @@ public class EditNoteFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 String newNote = mEditText.getText().toString();
-                databaseHelper.updateData(mPosition, newNote);
-                Toast.makeText(getActivity(),"Note Updated",Toast.LENGTH_SHORT).show();
+                boolean isUpdated = databaseHelper.updateData(mPosition, newNote);
+                if(isUpdated) {
+                    Toast.makeText(getActivity(),"Note Updated",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(),"Note is not updated",Toast.LENGTH_SHORT).show();
+                }
                 EditNoteFragment.this.dismiss();
             }
         });

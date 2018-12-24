@@ -42,8 +42,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(Note.COL_ID, id);
         contentValues.put(Note.COL_NOTE, note);
-        database.update(Note.TABLE_NAME, contentValues, "ID = " + id, null);
+        int result = database.update(Note.TABLE_NAME, contentValues, "ID = " + id, null);
         database.close();
-        return true;
+        return result > 0;
     }
 }
