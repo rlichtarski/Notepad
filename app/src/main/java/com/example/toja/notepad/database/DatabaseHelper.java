@@ -36,4 +36,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         database.close();
         return result != -1;
     }
+
+    public boolean updateData(int id, String note) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Note.COL_ID, id);
+        contentValues.put(Note.COL_NOTE, note);
+        int c = database.update(Note.TABLE_NAME, contentValues, "ID = " + id, null);
+        database.close();
+        return true;
+    }
 }

@@ -13,19 +13,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.toja.notepad.database.DatabaseHelper;
 
 public class EditNoteFragment extends DialogFragment {
 
+    private DatabaseHelper databaseHelper;
     private EditText mEditText;
     private FloatingActionButton mSaveMemoFAB, mCancelMemoFAB;
     private TextView mCreatedDateTextView;
     private String mNoteDate, mNoteInEditText;
+    private int mPosition;
 
-    public static EditNoteFragment newInstance(String noteDate, String noteInEditText) {
+    public static EditNoteFragment newInstance(String noteDate, String noteInEditText, int position) {
         EditNoteFragment fragment = new EditNoteFragment();
         Bundle args = new Bundle();
         args.putString("noteDate", noteDate);
         args.putString("noteInEditText", noteInEditText);
+        args.putInt("position", position);
         fragment.setArguments(args);
         return fragment;
     }
@@ -35,6 +41,7 @@ public class EditNoteFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         mNoteDate = getArguments().getString("noteDate");
         mNoteInEditText = getArguments().getString("noteInEditText");
+        mPosition = getArguments().getInt("position");
     }
 
     @Nullable
@@ -42,12 +49,24 @@ public class EditNoteFragment extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_write, container, false);
 
+        databaseHelper = new DatabaseHelper(getActivity());
+
         mCreatedDateTextView = rootView.findViewById(R.id.createdDateTextView);
         mCreatedDateTextView.setText(mNoteDate);
         mEditText = rootView.findViewById(R.id.editText);
         mEditText.setText(mNoteInEditText);
         mSaveMemoFAB = rootView.findViewById(R.id.saveMemoFAB);
         mCancelMemoFAB = rootView.findViewById(R.id.cancelMemoFAB);
+
+        mSaveMemoFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String newNote = mEditText.getText().toString();
+                databaseHelper.updateData(mPosition, newNote);
+                Toast.makeText(getActivity(),"Note Updated",Toast.LENGTH_SHORT).show();
+                EditNoteFragment.this.dismiss();
+            }
+        });
 
         mCancelMemoFAB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +85,7 @@ public class EditNoteFragment extends DialogFragment {
                             .setPositiveButton(R.string.save,new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface,int i) {
-
+                                    databaseHelper.updateData(mPosition, mNoteInEditText);
                                 }
                             })
                             .setNegativeButton(R.string.discard,new DialogInterface.OnClickListener() {

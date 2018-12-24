@@ -87,7 +87,7 @@ public class NoteDialogFragment extends DialogFragment {
         cursor.close();
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         FragmentManager fragmentManager = activity.getSupportFragmentManager();
-        EditNoteFragment editNoteFragment = EditNoteFragment.newInstance(dateFromQuery, noteFromQuery);
+        EditNoteFragment editNoteFragment = EditNoteFragment.newInstance(dateFromQuery, noteFromQuery, mPosition);
         editNoteFragment.show(fragmentManager, "");
         NoteDialogFragment.this.dismiss();
     }
