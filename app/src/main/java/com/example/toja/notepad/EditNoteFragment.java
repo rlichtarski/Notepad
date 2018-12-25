@@ -62,14 +62,19 @@ public class EditNoteFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 String newNote = mEditText.getText().toString();
-                boolean isUpdated = databaseHelper.updateData(mPosition, newNote);
-                if(isUpdated) {
-                    Toast.makeText(getActivity(),"Note Updated",Toast.LENGTH_SHORT).show();
+                if(newNote.equals(mNoteInEditText)) {
+                    Toast.makeText(getActivity(),"The note is not changed",Toast.LENGTH_SHORT).show();
+                    EditNoteFragment.this.dismiss();
                 } else {
-                    Toast.makeText(getActivity(),"Note is not updated",Toast.LENGTH_SHORT).show();
+                    boolean isUpdated = databaseHelper.updateData(mPosition,newNote);
+                    if (isUpdated) {
+                        Toast.makeText(getActivity(),"Note Updated",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getActivity(),"Note is not updated",Toast.LENGTH_SHORT).show();
+                    }
+                    ((MainActivity) getActivity()).swap();
+                    EditNoteFragment.this.dismiss();
                 }
-                ((MainActivity) getActivity()).swap();
-                EditNoteFragment.this.dismiss();
             }
         });
 
@@ -90,7 +95,10 @@ public class EditNoteFragment extends DialogFragment {
                             .setPositiveButton(R.string.save,new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface,int i) {
-                                    databaseHelper.updateData(mPosition, mNoteInEditText);
+                                    String note = mEditText.getText().toString();
+                                    databaseHelper.updateData(mPosition, note);
+                                    ((MainActivity) getActivity()).swap();
+                                    EditNoteFragment.this.dismiss();
                                 }
                             })
                             .setNegativeButton(R.string.discard,new DialogInterface.OnClickListener() {
