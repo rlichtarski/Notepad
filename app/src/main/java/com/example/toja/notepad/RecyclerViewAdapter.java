@@ -63,7 +63,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             return;
         }
 
-        final String note = mCursor.getString(mCursor.getColumnIndex(Note.COL_NOTE));
+        String note = mCursor.getString(mCursor.getColumnIndex(Note.COL_NOTE));
         holder.noteText.setText(note);
 
         String date = mCursor.getString(mCursor.getColumnIndex(Note.COL_DATE));
@@ -74,17 +74,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             public void onClick(View view,int position) {
                 showToast("Position: " + position);
                 position = position + 1;         //the position of rv must match database (rv counts from 0, db from 1)
-                showDialog(position, note);
+                showDialog(position);
             }
         });
 
     }
 
-    private void showDialog(int position, String note) {
+    private void showDialog(int position) {
         AppCompatActivity activity = (AppCompatActivity) mContext;                //need the context
         FragmentManager fragmentManager = activity.getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        NoteDialogFragment noteDialogFragment = NoteDialogFragment.newInstance(position, note);
+        NoteDialogFragment noteDialogFragment = NoteDialogFragment.newInstance(position);
         noteDialogFragment.show(fragmentTransaction, "fragmentTransaction");
     }
 

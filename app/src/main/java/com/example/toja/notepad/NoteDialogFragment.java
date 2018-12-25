@@ -15,22 +15,23 @@ import android.widget.TextView;
 import com.example.toja.notepad.database.DatabaseHelper;
 import com.example.toja.notepad.database.model.Note;
 
+import org.w3c.dom.Text;
+
 
 public class NoteDialogFragment extends DialogFragment {
     private static final String ARG_POSITION = "position";
-    private static final String ARG_NOTE = "note";
-    private String mNote;
     private int mPosition;
+    private String mNote;
+    private String mDate;
 
     public NoteDialogFragment() {
         // Required empty public constructor
     }
 
-    public static NoteDialogFragment newInstance(int position, String note) {
+    public static NoteDialogFragment newInstance(int position) {
         NoteDialogFragment fragment = new NoteDialogFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_POSITION, position);
-        args.putString(ARG_NOTE, note);
         fragment.setArguments(args);
         return fragment;
     }
@@ -40,7 +41,6 @@ public class NoteDialogFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mPosition = getArguments().getInt(ARG_POSITION);
-            mNote = getArguments().getString(ARG_NOTE);
         }
     }
 
@@ -53,8 +53,20 @@ public class NoteDialogFragment extends DialogFragment {
                 + " FROM " + Note.TABLE_NAME
                 + " WHERE " + Note.COL_ID + " = " + mPosition + ";";
 
-        TextView note = rootView.findViewById(R.id.memo);
-        note.setText(mNote);
+
+        Cursor cursor = getCursor(stringQuery);
+        if(cursor.getCount() == 1) {
+            cursor.moveToFirst();
+            mDate = cursor.getString(cursor.getColumnIndex(Note.COL_DATE));
+            mNote = cursor.getString(cursor.getColumnIndex(Note.COL_NOTE));
+            cursor.close();
+        }
+
+        TextView dateTextView = rootView.findViewById(R.id.dateTextView);
+        dateTextView.setText(mDate);
+
+        TextView noteTextView = rootView.findViewById(R.id.memo);
+        noteTextView.setText(mNote);
 
         ImageView mCloseNoteDialogBtn = rootView.findViewById(R.id.closeNoteDialogBtn);
         mCloseNoteDialogBtn.setOnClickListener(new View.OnClickListener() {
@@ -68,31 +80,22 @@ public class NoteDialogFragment extends DialogFragment {
         mEditNoteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Cursor query = getItem(stringQuery);
-                openEditNoteFragment(query);
+                openEditNoteFragment();
             }
         });
 
         return rootView;
     }
 
-    private void openEditNoteFragment(Cursor cursor) {
-        String dateFromQuery = "";
-        String noteFromQuery = "";
-        if(cursor.getCount() == 1) {
-            cursor.moveToFirst();
-            dateFromQuery = cursor.getString(cursor.getColumnIndex(Note.COL_DATE));
-            noteFromQuery = cursor.getString(cursor.getColumnIndex(Note.COL_NOTE));
-        }
-        cursor.close();
+    private void openEditNoteFragment() {
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         FragmentManager fragmentManager = activity.getSupportFragmentManager();
-        EditNoteFragment editNoteFragment = EditNoteFragment.newInstance(dateFromQuery, noteFromQuery, mPosition);
+        EditNoteFragment editNoteFragment = EditNoteFragment.newInstance(mDate, mNote, mPosition);
         editNoteFragment.show(fragmentManager, "");
         NoteDialogFragment.this.dismiss();
     }
 
-    private Cursor getItem(String query) {
+    private Cursor getCursor(String query) {
         DatabaseHelper databaseHelper = new DatabaseHelper(getActivity());
         SQLiteDatabase sqLiteDatabase = databaseHelper.getReadableDatabase();
         return sqLiteDatabase.rawQuery(query, null);

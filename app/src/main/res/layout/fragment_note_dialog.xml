@@ -25,6 +25,15 @@
                 android:layout_marginBottom="8dp"
                 android:src="@drawable/round_clear_black_36" />
 
+            <TextView
+                android:id="@+id/dateTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@id/editNoteBtn"
+                android:layout_toEndOf="@id/closeNoteDialogBtn"
+                android:gravity="center"
+                android:layout_centerInParent="true"/>
+
             <ImageView
                 android:id="@+id/editNoteBtn"
                 android:layout_width="wrap_content"
