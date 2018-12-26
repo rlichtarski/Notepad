@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.Toast;
 
@@ -36,6 +37,18 @@ public class MainActivity extends AppCompatActivity {
 
         setRecyclerView();
 
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView,RecyclerView.ViewHolder viewHolder,RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder,int direction) {
+                removeItem((long) viewHolder.itemView.getTag());
+            }
+        }).attachToRecyclerView(recyclerView);
+
         floatingActionButton = findViewById(R.id.floatingActionButton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,6 +56,11 @@ public class MainActivity extends AppCompatActivity {
                 showWriteFragment();
             }
         });
+    }
+
+    private void removeItem(long id) {
+        mDatabase.delete(Note.TABLE_NAME, Note.COL_ID + "=" + id, null);
+        mRecyclerViewAdapter.swapCursor(getAllItems());
     }
 
     private void setRecyclerView() {
