@@ -11,12 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.toja.notepad.database.DatabaseHelper;
 import com.example.toja.notepad.database.model.Note;
-
-import org.w3c.dom.Text;
-
 
 public class NoteDialogFragment extends DialogFragment {
     private static final String ARG_POSITION = "position";
@@ -53,14 +51,14 @@ public class NoteDialogFragment extends DialogFragment {
                 + " FROM " + Note.TABLE_NAME
                 + " WHERE " + Note.COL_ID + " = " + mPosition + ";";
 
-
         Cursor cursor = getCursor(stringQuery);
+
         if(cursor.getCount() == 1) {
             cursor.moveToFirst();
             mDate = cursor.getString(cursor.getColumnIndex(Note.COL_DATE));
             mNote = cursor.getString(cursor.getColumnIndex(Note.COL_NOTE));
-            cursor.close();
         }
+        cursor.close();
 
         TextView dateTextView = rootView.findViewById(R.id.dateTextView);
         dateTextView.setText(mDate);
