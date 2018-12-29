@@ -17,19 +17,21 @@ import com.example.toja.notepad.database.DatabaseHelper;
 import com.example.toja.notepad.database.model.Note;
 
 public class NoteDialogFragment extends DialogFragment {
-    private static final String ARG_POSITION = "position";
-    private int mPosition;
+    private static final String ARG_POSITION_NOTE = "note";
+    private static final String ARG_POSITION_DATE = "date";
     private String mNote;
     private String mDate;
+    private long mId;
 
     public NoteDialogFragment() {
         // Required empty public constructor
     }
 
-    public static NoteDialogFragment newInstance(int position) {
+    public static NoteDialogFragment newInstance(String note, String date) {
         NoteDialogFragment fragment = new NoteDialogFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_POSITION, position);
+        args.putString(ARG_POSITION_NOTE, note);
+        args.putString(ARG_POSITION_DATE, date);
         fragment.setArguments(args);
         return fragment;
     }
@@ -38,7 +40,8 @@ public class NoteDialogFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mPosition = getArguments().getInt(ARG_POSITION);
+            mNote = getArguments().getString(ARG_POSITION_NOTE);
+            mDate = getArguments().getString(ARG_POSITION_DATE);
         }
     }
 
@@ -47,24 +50,29 @@ public class NoteDialogFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_note_dialog,container,false);
 
-        final String stringQuery = "SELECT " + Note.COL_DATE + ", " + Note.COL_NOTE
+        TextView noteTextView = rootView.findViewById(R.id.memo);
+        noteTextView.setText(mNote);         //the note to show
+
+        TextView dateTextView = rootView.findViewById(R.id.dateTextView);
+        dateTextView.setText(mDate);
+
+        String noteToQuery = mNote;
+        if(noteToQuery.contains("'")) {        //if a string contains ' in query, it need to be doubled, //i.e can''t instead of can't
+            String[] noteParts = mNote.split("'");                  //find the place where ' is placed
+            noteToQuery = noteParts[0] + "''" + noteParts[1];             //and add '' to this
+        }
+
+        final String stringQuery = "SELECT " + Note.COL_ID
                 + " FROM " + Note.TABLE_NAME
-                + " WHERE " + Note.COL_ID + " = " + mPosition + ";";
+                + " WHERE " + Note.COL_NOTE + " = '" + noteToQuery + "';";   //find the id where the note exists
 
         Cursor cursor = getCursor(stringQuery);
 
         if(cursor.getCount() == 1) {
             cursor.moveToFirst();
-            mDate = cursor.getString(cursor.getColumnIndex(Note.COL_DATE));
-            mNote = cursor.getString(cursor.getColumnIndex(Note.COL_NOTE));
+            mId = cursor.getLong(cursor.getColumnIndex(Note.COL_ID));      //id needed to update the note
         }
         cursor.close();
-
-        TextView dateTextView = rootView.findViewById(R.id.dateTextView);
-        dateTextView.setText(mDate);
-
-        TextView noteTextView = rootView.findViewById(R.id.memo);
-        noteTextView.setText(mNote);
 
         ImageView mCloseNoteDialogBtn = rootView.findViewById(R.id.closeNoteDialogBtn);
         mCloseNoteDialogBtn.setOnClickListener(new View.OnClickListener() {
@@ -88,7 +96,7 @@ public class NoteDialogFragment extends DialogFragment {
     private void openEditNoteFragment() {
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         FragmentManager fragmentManager = activity.getSupportFragmentManager();
-        EditNoteFragment editNoteFragment = EditNoteFragment.newInstance(mDate, mNote, mPosition);
+        EditNoteFragment editNoteFragment = EditNoteFragment.newInstance(mDate, mNote, mId);
         editNoteFragment.show(fragmentManager, "");
         NoteDialogFragment.this.dismiss();
     }

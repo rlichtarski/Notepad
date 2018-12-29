@@ -24,14 +24,14 @@ public class EditNoteFragment extends DialogFragment {
     private FloatingActionButton mSaveMemoFAB, mCancelMemoFAB;
     private TextView mCreatedDateTextView;
     private String mNoteDate, mNoteInEditText;
-    private int mPosition;
+    private long mId;
 
-    public static EditNoteFragment newInstance(String noteDate, String noteInEditText, int position) {
+    public static EditNoteFragment newInstance(String noteDate, String noteInEditText, long id) {
         EditNoteFragment fragment = new EditNoteFragment();
         Bundle args = new Bundle();
         args.putString("noteDate", noteDate);
         args.putString("noteInEditText", noteInEditText);
-        args.putInt("position", position);
+        args.putLong("clickedID", id);
         fragment.setArguments(args);
         return fragment;
     }
@@ -41,7 +41,7 @@ public class EditNoteFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         mNoteDate = getArguments().getString("noteDate");
         mNoteInEditText = getArguments().getString("noteInEditText");
-        mPosition = getArguments().getInt("position");
+        mId = getArguments().getLong("clickedID");
     }
 
     @Nullable
@@ -66,7 +66,7 @@ public class EditNoteFragment extends DialogFragment {
                     Toast.makeText(getActivity(),"The note is not changed",Toast.LENGTH_SHORT).show();
                     EditNoteFragment.this.dismiss();
                 } else {
-                    boolean isUpdated = databaseHelper.updateData(mPosition,newNote);
+                    boolean isUpdated = databaseHelper.updateData(mId,newNote);
                     if (isUpdated) {
                         Toast.makeText(getActivity(),"Note Updated",Toast.LENGTH_SHORT).show();
                     } else {
@@ -96,7 +96,7 @@ public class EditNoteFragment extends DialogFragment {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface,int i) {
                                     String note = mEditText.getText().toString();
-                                    databaseHelper.updateData(mPosition, note);
+                                    databaseHelper.updateData(mId, note);
                                     ((MainActivity) getActivity()).swap();
                                     EditNoteFragment.this.dismiss();
                                 }

@@ -63,10 +63,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             return;
         }
 
-        String note = mCursor.getString(mCursor.getColumnIndex(Note.COL_NOTE));
+        final String note = mCursor.getString(mCursor.getColumnIndex(Note.COL_NOTE));
         holder.noteText.setText(note);
 
-        String date = mCursor.getString(mCursor.getColumnIndex(Note.COL_DATE));
+        final String date = mCursor.getString(mCursor.getColumnIndex(Note.COL_DATE));
         holder.dateView.setText(date);
 
         long id = mCursor.getInt(mCursor.getColumnIndex(Note.COL_ID));
@@ -75,19 +75,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.setItemClickListener(new ItemClickListener() {
             @Override
             public void onClick(View view,int position) {
-                showToast("Position: " + position);
-                position = position + 1;         //the position of rv must match database (rv counts from 0, db from 1)
-                showDialog(position);
+                showToast("Position: " + position + " | Note: " + note);
+                showDialog(note, date);
             }
         });
 
     }
 
-    private void showDialog(int position) {
+    private void showDialog(String note, String date) {
         AppCompatActivity activity = (AppCompatActivity) mContext;                //need the context
         FragmentManager fragmentManager = activity.getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        NoteDialogFragment noteDialogFragment = NoteDialogFragment.newInstance(position);
+        NoteDialogFragment noteDialogFragment = NoteDialogFragment.newInstance(note, date);
         noteDialogFragment.show(fragmentTransaction, "fragmentTransaction");
     }
 
