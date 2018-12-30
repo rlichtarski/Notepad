@@ -57,9 +57,8 @@ public class NoteDialogFragment extends DialogFragment {
         dateTextView.setText(mDate);
 
         String noteToQuery = mNote;
-        if(noteToQuery.contains("'")) {        //if a string contains ' in query, it need to be doubled, //i.e can''t instead of can't
-            String[] noteParts = mNote.split("'");                  //find the place where ' is placed
-            noteToQuery = noteParts[0] + "''" + noteParts[1];             //and add '' to this
+        if(noteToQuery.contains("'")) {        //if a string contains ' in query, it need to be doubled, i.e can''t instead of can't
+            noteToQuery = noteToQuery.replace("'", "''");   //so it replaces ' with ''
         }
 
         final String stringQuery = "SELECT " + Note.COL_ID
