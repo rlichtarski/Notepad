@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.toja.notepad.database.DatabaseHelper;
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerViewAdapter mRecyclerViewAdapter;
     private SQLiteDatabase mDatabase;
     private RecyclerView recyclerView;
+    private TextView mEmptyView;
 
     public MainActivity() {}
 
@@ -34,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mEmptyView = findViewById(R.id.emptyView);
 
         setRecyclerView();
 
@@ -61,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
     private void removeItem(long id) {
         mDatabase.delete(Note.TABLE_NAME, Note.COL_ID + "=" + id, null);
         mRecyclerViewAdapter.swapCursor(getAllItems());
+        isRecyclerViewEmpty();
     }
 
     private void setRecyclerView() {
@@ -68,7 +73,18 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).marginResId(R.dimen.activity_margin).build());
         mRecyclerViewAdapter = new RecyclerViewAdapter(this, getAllItems());
+        isRecyclerViewEmpty();
         recyclerView.setAdapter(mRecyclerViewAdapter);
+    }
+
+    private void isRecyclerViewEmpty() {
+        if(mRecyclerViewAdapter.getItemCount() == 0) {
+            recyclerView.setVisibility(View.GONE);
+            mEmptyView.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            mEmptyView.setVisibility(View.GONE);
+        }
     }
 
     private void showWriteFragment() {
