@@ -75,7 +75,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.setItemClickListener(new ItemClickListener() {
             @Override
             public void onClick(View view,int position) {
-                showToast("Position: " + position + " | Note: " + note);
                 showDialog(note, date);
             }
         });
@@ -88,10 +87,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         NoteDialogFragment noteDialogFragment = NoteDialogFragment.newInstance(note, date);
         noteDialogFragment.show(fragmentTransaction, "fragmentTransaction");
-    }
-
-    private void showToast(String position) {
-        Toast.makeText(mContext,position, Toast.LENGTH_SHORT).show();
     }
 
     @Override

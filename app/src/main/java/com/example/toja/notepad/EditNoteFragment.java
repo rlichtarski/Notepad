@@ -68,7 +68,7 @@ public class EditNoteFragment extends DialogFragment {
                 } else {
                     boolean isUpdated = databaseHelper.updateData(mId,newNote);
                     if (isUpdated) {
-                        Toast.makeText(getActivity(),"Note Updated",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(),"Note updated",Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(getActivity(),"Note is not updated",Toast.LENGTH_SHORT).show();
                     }
@@ -96,8 +96,12 @@ public class EditNoteFragment extends DialogFragment {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface,int i) {
                                     String note = mEditText.getText().toString();
-                                    databaseHelper.updateData(mId, note);
+                                    boolean isInserted = databaseHelper.updateData(mId, note);
                                     ((MainActivity) getActivity()).swap();
+                                    if(isInserted) {
+                                        Toast.makeText(getActivity(),"The note is updated",Toast.LENGTH_SHORT).show();
+                                    }
+
                                     EditNoteFragment.this.dismiss();
                                 }
                             })

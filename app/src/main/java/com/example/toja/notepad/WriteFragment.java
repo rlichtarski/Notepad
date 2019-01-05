@@ -82,7 +82,6 @@ public class WriteFragment extends DialogFragment {
                 if(mNote.trim().length() == 0) {
                     Toast.makeText(getActivity(),"The note is empty",Toast.LENGTH_SHORT).show();
                 } else {
-                    showToast(mNote);
                     addNoteToDatabase(mNote);
                     WriteFragment.this.dismiss();
                 }
@@ -96,7 +95,7 @@ public class WriteFragment extends DialogFragment {
         boolean isInserted = databaseHelper.insertData(note, mNoteDate);
         ((MainActivity) getActivity()).swap();        //swap the cursor to refresh recycler view when item added
         if(isInserted) {
-            Toast.makeText(getActivity(),"The Note is inserted into the database",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(),"The note is inserted into the database",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -116,8 +115,6 @@ public class WriteFragment extends DialogFragment {
                 .setPositiveButton(R.string.save,new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface,int i) {
-                        Toast.makeText(getActivity(), "Saved", Toast.LENGTH_SHORT).show();
-
                         addNoteToDatabase(note);
 
                         WriteFragment.this.dismiss();
