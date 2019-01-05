@@ -16,9 +16,7 @@ import android.widget.Toast;
 import com.example.toja.notepad.database.DatabaseHelper;
 
 public class WriteFragment extends DialogFragment {
-
-    private MainActivity mainActivity;
-    private RecyclerViewAdapter recyclerViewAdapter;
+    
     private DatabaseHelper databaseHelper;
     private TextView mDateTextView;
     private EditText mEditText;
@@ -54,8 +52,6 @@ public class WriteFragment extends DialogFragment {
 
         mEditText = rootView.findViewById(R.id.editText);
 
-        mainActivity = new MainActivity();
-        recyclerViewAdapter = new RecyclerViewAdapter();
         mDiscardNoteFAB = rootView.findViewById(R.id.cancelMemoFAB);
         mSaveNoteFAB = rootView.findViewById(R.id.saveMemoFAB);
         mDateTextView = rootView.findViewById(R.id.createdDateTextView);
