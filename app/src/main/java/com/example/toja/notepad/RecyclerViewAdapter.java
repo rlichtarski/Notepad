@@ -20,8 +20,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private Context mContext;
     private Cursor mCursor;
 
-    public RecyclerViewAdapter() {}
-
     public RecyclerViewAdapter(Context context, Cursor cursor) {
         mContext = context;
         mCursor = cursor;

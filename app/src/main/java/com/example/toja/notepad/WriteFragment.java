@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.example.toja.notepad.database.DatabaseHelper;
 
 public class WriteFragment extends DialogFragment {
-    
+
     private DatabaseHelper databaseHelper;
     private TextView mDateTextView;
     private EditText mEditText;
