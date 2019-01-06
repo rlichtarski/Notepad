@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void removeItem(long id) {
-        mDatabase.delete(Note.TABLE_NAME, Note.COL_ID + "=" + id, null);
+        mDatabase.delete(Note.TABLE_NAME, Note._ID + "=" + id, null);
         mRecyclerViewAdapter.swapCursor(getAllItems());
         isRecyclerViewEmpty();
     }
@@ -115,6 +115,6 @@ public class MainActivity extends AppCompatActivity {
                 null,
                 null,
                 null,
-                Note.COL_ID);
+                Note._ID);
     }
 }

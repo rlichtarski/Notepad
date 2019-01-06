@@ -61,7 +61,7 @@ public class NoteDialogFragment extends DialogFragment {
             noteToQuery = noteToQuery.replace("'", "''");   //so it replaces ' with ''
         }
 
-        final String stringQuery = "SELECT " + Note.COL_ID
+        final String stringQuery = "SELECT " + Note._ID
                 + " FROM " + Note.TABLE_NAME
                 + " WHERE " + Note.COL_NOTE + " = '" + noteToQuery + "';";   //find the id where the note exists
 
@@ -69,7 +69,7 @@ public class NoteDialogFragment extends DialogFragment {
 
         if(cursor.getCount() == 1) {
             cursor.moveToFirst();
-            mId = cursor.getLong(cursor.getColumnIndex(Note.COL_ID));      //id needed to update the note
+            mId = cursor.getLong(cursor.getColumnIndex(Note._ID));      //id needed to update the note
         }
         cursor.close();
 

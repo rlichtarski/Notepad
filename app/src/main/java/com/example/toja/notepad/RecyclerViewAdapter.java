@@ -67,7 +67,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         final String date = mCursor.getString(mCursor.getColumnIndex(Note.COL_DATE));
         holder.dateView.setText(date);
 
-        long id = mCursor.getInt(mCursor.getColumnIndex(Note.COL_ID));
+        long id = mCursor.getInt(mCursor.getColumnIndex(Note._ID));
         holder.itemView.setTag(id);
 
         holder.setItemClickListener(new ItemClickListener() {
