@@ -63,7 +63,6 @@ public class WriteFragment extends DialogFragment {
                 String note = mEditText.getText().toString();
 
                 if(!note.isEmpty()) {     //if you're trying to close the fragment, but the note is still not saved
-                    showToast("Something is in EditText");
                     showAlertDialog(note);
                 } else {
                     WriteFragment.this.dismiss();
