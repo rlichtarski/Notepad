@@ -92,13 +92,8 @@ public class MainActivity extends AppCompatActivity {
         Date date = Calendar.getInstance().getTime();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy, h:mm a");
         String formattedDate = simpleDateFormat.format(date);
-        showToast(formattedDate);
         WriteFragment writeFragment = WriteFragment.newInstance(formattedDate);
         writeFragment.show(fragmentManager,"");
-    }
-
-    private void showToast(String formatted) {
-        Toast.makeText(this, formatted, Toast.LENGTH_SHORT).show();
     }
 
     public void swap() {          //change the cursor
