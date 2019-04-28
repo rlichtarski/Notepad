@@ -40,7 +40,9 @@ public class WriteFragment extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mNoteDate = getArguments().getString("noteDate");
+        if (getArguments() != null) {
+            mNoteDate = getArguments().getString("noteDate");
+        }
     }
 
     @Override
@@ -92,10 +94,6 @@ public class WriteFragment extends DialogFragment {
         if(isInserted) {
             Toast.makeText(getActivity(),"The note is inserted into the database",Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private void showToast(String note) {
-        Toast.makeText(getActivity(), note, Toast.LENGTH_SHORT).show();
     }
 
     private void showAlertDialog(final String note) {

@@ -26,8 +26,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public class NoteRecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        public TextView noteText;
-        private TextView dateView;
+        private TextView noteText, dateView;
         private ItemClickListener itemClickListener;
 
         public NoteRecyclerViewHolder(View itemView) {
