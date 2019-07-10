@@ -1,29 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:clickable="true"
     android:focusable="true"
-    android:paddingTop="@dimen/dimen_10"
-    android:paddingBottom="@dimen/dimen_10"
+    android:orientation="vertical"
     android:paddingLeft="@dimen/activity_margin"
-    android:paddingRight="@dimen/activity_margin">
+    android:paddingTop="@dimen/dimen_10"
+    android:paddingRight="@dimen/activity_margin"
+    android:paddingBottom="@dimen/dimen_10">
 
     <TextView
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14sp"/>
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/note"
         android:layout_width="match_parent"
         android:layout_height="26dp"
-        android:textSize="18sp"
-        android:textColor="@color/noteText"
         android:ellipsize="marquee"
-        android:singleLine="true"/>
+        android:singleLine="true"
+        android:textColor="@color/noteText"
+        android:textSize="18sp" />
 
 </LinearLayout>
