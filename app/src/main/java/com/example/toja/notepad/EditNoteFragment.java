@@ -4,10 +4,10 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.DialogFragment;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.fragment.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +15,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.toja.notepad.database.DatabaseHelper;
-
 public class EditNoteFragment extends DialogFragment {
 
-    private DatabaseHelper databaseHelper;
     private EditText mEditText;
     private FloatingActionButton mSaveMemoFAB, mCancelMemoFAB;
     private TextView mCreatedDateTextView;
@@ -49,8 +46,6 @@ public class EditNoteFragment extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_write, container, false);
 
-        databaseHelper = new DatabaseHelper(getActivity());
-
         mCreatedDateTextView = rootView.findViewById(R.id.createdDateTextView);
         mCreatedDateTextView.setText(mNoteDate);
         mEditText = rootView.findViewById(R.id.editText);
@@ -64,15 +59,6 @@ public class EditNoteFragment extends DialogFragment {
                 String newNote = mEditText.getText().toString();
                 if(newNote.equals(mNoteInEditText)) {
                     Toast.makeText(getActivity(),"The note is not changed",Toast.LENGTH_SHORT).show();
-                    EditNoteFragment.this.dismiss();
-                } else {
-                    boolean isUpdated = databaseHelper.updateData(mId,newNote);
-                    if (isUpdated) {
-                        Toast.makeText(getActivity(),"Note updated",Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getActivity(),"Note is not updated",Toast.LENGTH_SHORT).show();
-                    }
-                    ((MainActivity) getActivity()).swap();
                     EditNoteFragment.this.dismiss();
                 }
             }
@@ -96,11 +82,6 @@ public class EditNoteFragment extends DialogFragment {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface,int i) {
                                     String note = mEditText.getText().toString();
-                                    boolean isInserted = databaseHelper.updateData(mId, note);
-                                    ((MainActivity) getActivity()).swap();
-                                    if(isInserted) {
-                                        Toast.makeText(getActivity(),"The note is updated",Toast.LENGTH_SHORT).show();
-                                    }
 
                                     EditNoteFragment.this.dismiss();
                                 }

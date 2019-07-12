@@ -1,17 +1,40 @@
 package com.example.toja.notepad.database.model;
 
-import android.provider.BaseColumns;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
-public class Note implements BaseColumns {
+import com.example.toja.notepad.TimestampConverter;
 
-    public static final String TABLE_NAME = "notes_table";
+import java.util.Date;
 
-    public static final String COL_NOTE = "NOTE";
-    public static final String COL_DATE = "DATE";
+@Entity(tableName = "notes_table")
+public class Note  {
 
-    public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "("
-            + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + COL_NOTE + " TEXT,"
-            + COL_DATE + " TEXT"
-            + ");";
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+    private String note;
+    //@TypeConverters(TimestampConverter.class)
+    private String date;
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public Note(String note, String date) {
+        this.note = note;
+        this.date = date;
+    }
 }

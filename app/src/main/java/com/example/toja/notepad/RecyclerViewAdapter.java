@@ -1,28 +1,30 @@
 package com.example.toja.notepad;
 
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.content.Context;
 import android.database.Cursor;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.toja.notepad.database.model.Note;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.NoteRecyclerViewHolder>{
-
     private Context mContext;
-    private Cursor mCursor;
+    private List<Note> notesList = new ArrayList<>();
 
-    public RecyclerViewAdapter(Context context, Cursor cursor) {
+
+    public RecyclerViewAdapter(Context context) {
         mContext = context;
-        mCursor = cursor;
     }
 
     public class NoteRecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -56,26 +58,23 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull NoteRecyclerViewHolder holder,int position) {
-        if (!mCursor.moveToPosition(position)) {
-            return;
-        }
+        Note note = notesList.get(position);
+        holder.noteText.setText(note.getNote());
+        holder.dateView.setText(note.getDate().toString());
 
-        final String note = mCursor.getString(mCursor.getColumnIndex(Note.COL_NOTE));
-        holder.noteText.setText(note);
 
-        final String date = mCursor.getString(mCursor.getColumnIndex(Note.COL_DATE));
-        holder.dateView.setText(date);
-
-        long id = mCursor.getInt(mCursor.getColumnIndex(Note._ID));
-        holder.itemView.setTag(id);
-
-        holder.setItemClickListener(new ItemClickListener() {
+       /* holder.setItemClickListener(new ItemClickListener() {
             @Override
             public void onClick(View view,int position) {
                 showDialog(note, date);
             }
-        });
+        });*/
 
+    }
+
+    public void setNotes(List<Note> notes) {
+        notesList = notes;
+        notifyDataSetChanged();
     }
 
     private void showDialog(String note, String date) {
@@ -88,18 +87,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-        return mCursor.getCount();
+        return notesList.size();
     }
 
-    public void swapCursor(Cursor newCursor) {
-        if(mCursor != null) {
-            mCursor.close();
-        }
-
-        mCursor = newCursor;
-
-        if(newCursor != null) {
-            notifyDataSetChanged();
-        }
-    }
 }

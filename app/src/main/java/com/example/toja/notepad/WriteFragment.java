@@ -4,8 +4,10 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.DialogFragment;
+
+import com.example.toja.notepad.database.model.Note;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.fragment.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +15,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.toja.notepad.database.DatabaseHelper;
-
 public class WriteFragment extends DialogFragment {
 
-    private DatabaseHelper databaseHelper;
     private TextView mDateTextView;
     private EditText mEditText;
     private String mNoteDate;
@@ -50,8 +49,6 @@ public class WriteFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_write,container,false);
 
-        databaseHelper = new DatabaseHelper(getActivity());
-
         mEditText = rootView.findViewById(R.id.editText);
 
         mDiscardNoteFAB = rootView.findViewById(R.id.cancelMemoFAB);
@@ -79,7 +76,7 @@ public class WriteFragment extends DialogFragment {
                 if(mNote.trim().length() == 0) {
                     Toast.makeText(getActivity(),"The note is empty",Toast.LENGTH_SHORT).show();
                 } else {
-                    addNoteToDatabase(mNote);
+                    addNoteToDatabase(mNote, mNoteDate);
                     WriteFragment.this.dismiss();
                 }
             }
@@ -88,12 +85,9 @@ public class WriteFragment extends DialogFragment {
         return rootView;
     }
 
-    private void addNoteToDatabase(String note) {
-        boolean isInserted = databaseHelper.insertData(note, mNoteDate);
-        ((MainActivity) getActivity()).swap();        //swap the cursor to refresh recycler view when item added
-        if(isInserted) {
-            Toast.makeText(getActivity(),"The note is inserted into the database",Toast.LENGTH_SHORT).show();
-        }
+    private void addNoteToDatabase(String note, String date) {
+        Note newNote = new Note(note, date);
+        ((MainActivity)getActivity()).addNote(newNote);
     }
 
     private void showAlertDialog(final String note) {
@@ -108,7 +102,7 @@ public class WriteFragment extends DialogFragment {
                 .setPositiveButton(R.string.save,new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface,int i) {
-                        addNoteToDatabase(note);
+                        addNoteToDatabase(note, mNoteDate);
 
                         WriteFragment.this.dismiss();
                     }

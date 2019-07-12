@@ -3,17 +3,16 @@ package com.example.toja.notepad;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.toja.notepad.database.DatabaseHelper;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+
 import com.example.toja.notepad.database.model.Note;
 
 public class NoteDialogFragment extends DialogFragment {
@@ -56,23 +55,6 @@ public class NoteDialogFragment extends DialogFragment {
         TextView dateTextView = rootView.findViewById(R.id.dateTextView);
         dateTextView.setText(mDate);
 
-        String noteToQuery = mNote;
-        if(noteToQuery.contains("'")) {        //if a string contains ' in query, it need to be doubled, i.e can''t instead of can't
-            noteToQuery = noteToQuery.replace("'", "''");   //so it replaces ' with ''
-        }
-
-        final String stringQuery = "SELECT " + Note._ID
-                + " FROM " + Note.TABLE_NAME
-                + " WHERE " + Note.COL_NOTE + " = '" + noteToQuery + "';";   //find the id where the note exists
-
-        Cursor cursor = getCursor(stringQuery);
-
-        if(cursor.getCount() == 1) {
-            cursor.moveToFirst();
-            mId = cursor.getLong(cursor.getColumnIndex(Note._ID));      //id needed to update the note
-        }
-        cursor.close();
-
         ImageView mCloseNoteDialogBtn = rootView.findViewById(R.id.closeNoteDialogBtn);
         mCloseNoteDialogBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,11 +80,5 @@ public class NoteDialogFragment extends DialogFragment {
         EditNoteFragment editNoteFragment = EditNoteFragment.newInstance(mDate, mNote, mId);
         editNoteFragment.show(fragmentManager, "");
         NoteDialogFragment.this.dismiss();
-    }
-
-    private Cursor getCursor(String query) {
-        DatabaseHelper databaseHelper = new DatabaseHelper(getActivity());
-        SQLiteDatabase sqLiteDatabase = databaseHelper.getReadableDatabase();
-        return sqLiteDatabase.rawQuery(query, null);
     }
 }

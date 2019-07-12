@@ -1,34 +1,37 @@
 package com.example.toja.notepad;
 
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.toja.notepad.database.DatabaseHelper;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.toja.notepad.database.model.Note;
-import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private FloatingActionButton floatingActionButton;
-    private DatabaseHelper databaseHelper;
     private RecyclerViewAdapter mRecyclerViewAdapter;
     private SQLiteDatabase mDatabase;
     private RecyclerView recyclerView;
     private TextView mEmptyView;
+
+    private NoteViewModel noteViewModel;
+    private List<Note> notesList;
 
     public MainActivity() {}
 
@@ -60,31 +63,32 @@ public class MainActivity extends AppCompatActivity {
                 showWriteFragment();
             }
         });
+
+        noteViewModel = ViewModelProviders.of(this).get(NoteViewModel.class);
+        noteViewModel.getAllNotes().observe(this,new Observer<List<Note>>() {
+            @Override
+            public void onChanged(List<Note> notes) {
+                notesList = notes;
+                mRecyclerViewAdapter.setNotes(notes);
+            }
+        });
+    }
+
+    public void addNote(Note note) {
+        noteViewModel.insert(note);
     }
 
     private void removeItem(long id) {
-        mDatabase.delete(Note.TABLE_NAME, Note._ID + "=" + id, null);
+        /*mDatabase.delete(Note.TABLE_NAME, Note._ID + "=" + id, null);
         mRecyclerViewAdapter.swapCursor(getAllItems());
-        isRecyclerViewEmpty();
+        isRecyclerViewEmpty();*/
     }
 
     private void setRecyclerView() {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).marginResId(R.dimen.activity_margin).build());
-        mRecyclerViewAdapter = new RecyclerViewAdapter(this, getAllItems());
-        isRecyclerViewEmpty();
+        mRecyclerViewAdapter = new RecyclerViewAdapter(this);
         recyclerView.setAdapter(mRecyclerViewAdapter);
-    }
-
-    private void isRecyclerViewEmpty() {
-        if(mRecyclerViewAdapter.getItemCount() == 0) {
-            recyclerView.setVisibility(View.GONE);
-            mEmptyView.setVisibility(View.VISIBLE);
-        } else {
-            recyclerView.setVisibility(View.VISIBLE);
-            mEmptyView.setVisibility(View.GONE);
-        }
     }
 
     private void showWriteFragment() {
@@ -96,20 +100,4 @@ public class MainActivity extends AppCompatActivity {
         writeFragment.show(fragmentManager,"");
     }
 
-    public void swap() {          //change the cursor
-        setRecyclerView();
-        mRecyclerViewAdapter.swapCursor(getAllItems());
-    }
-
-    public Cursor getAllItems() {
-        databaseHelper = new DatabaseHelper(this);
-        mDatabase = databaseHelper.getReadableDatabase();
-        return mDatabase.query(Note.TABLE_NAME,
-                null,
-                null,
-                null,
-                null,
-                null,
-                Note._ID);
-    }
 }
