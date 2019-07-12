@@ -22,7 +22,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private Context mContext;
     private List<Note> notesList = new ArrayList<>();
 
-
     public RecyclerViewAdapter(Context context) {
         mContext = context;
     }
@@ -75,6 +74,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void setNotes(List<Note> notes) {
         notesList = notes;
         notifyDataSetChanged();
+    }
+
+    public Note getNoteAt(int position) {
+        return notesList.get(position);
     }
 
     private void showDialog(String note, String date) {

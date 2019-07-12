@@ -2,6 +2,7 @@ package com.example.toja.notepad;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
@@ -19,7 +20,7 @@ public interface NoteDao {
     @Update
     void update(Note note);
 
-    @Update
+    @Delete
     void delete(Note note);
 
     @Query("SELECT * FROM notes_table ORDER BY id DESC")

@@ -4,7 +4,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -44,6 +43,15 @@ public class MainActivity extends AppCompatActivity {
 
         setRecyclerView();
 
+        noteViewModel = ViewModelProviders.of(this).get(NoteViewModel.class);
+        noteViewModel.getAllNotes().observe(this,new Observer<List<Note>>() {
+            @Override
+            public void onChanged(List<Note> notes) {
+                notesList = notes;
+                mRecyclerViewAdapter.setNotes(notes);
+            }
+        });
+
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(RecyclerView recyclerView,RecyclerView.ViewHolder viewHolder,RecyclerView.ViewHolder target) {
@@ -52,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder,int direction) {
-                removeItem((long) viewHolder.itemView.getTag());
+                noteViewModel.delete(mRecyclerViewAdapter.getNoteAt(viewHolder.getAdapterPosition()));
             }
         }).attachToRecyclerView(recyclerView);
 
@@ -63,26 +71,12 @@ public class MainActivity extends AppCompatActivity {
                 showWriteFragment();
             }
         });
-
-        noteViewModel = ViewModelProviders.of(this).get(NoteViewModel.class);
-        noteViewModel.getAllNotes().observe(this,new Observer<List<Note>>() {
-            @Override
-            public void onChanged(List<Note> notes) {
-                notesList = notes;
-                mRecyclerViewAdapter.setNotes(notes);
-            }
-        });
     }
 
     public void addNote(Note note) {
         noteViewModel.insert(note);
     }
 
-    private void removeItem(long id) {
-        /*mDatabase.delete(Note.TABLE_NAME, Note._ID + "=" + id, null);
-        mRecyclerViewAdapter.swapCursor(getAllItems());
-        isRecyclerViewEmpty();*/
-    }
 
     private void setRecyclerView() {
         recyclerView = findViewById(R.id.recyclerView);
