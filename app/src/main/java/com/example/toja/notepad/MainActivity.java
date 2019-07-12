@@ -2,6 +2,7 @@ package com.example.toja.notepad;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -25,9 +26,10 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton floatingActionButton;
     private RecyclerViewAdapter recyclerViewAdapter;
     private RecyclerView recyclerView;
-//  private TextView mEmptyView;
+    private TextView emptyView;
     private NoteViewModel noteViewModel;
     private List<Note> notesList;
+    private boolean isRVVisible = false;
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
@@ -47,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        mEmptyView = findViewById(R.id.emptyView);
+        emptyView = findViewById(R.id.emptyView);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewAdapter = new RecyclerViewAdapter(this);
@@ -58,8 +60,19 @@ public class MainActivity extends AppCompatActivity {
         noteViewModel.getAllNotes().observe(this,new Observer<List<Note>>() {
             @Override
             public void onChanged(List<Note> notes) {
-                notesList = notes;
-                recyclerViewAdapter.setNotes(notes);
+                if(notes.isEmpty()) {
+                    recyclerView.setVisibility(View.GONE);
+                    emptyView.setVisibility(View.VISIBLE);
+                    isRVVisible = false;
+                } else {
+                    if(!isRVVisible) {
+                        recyclerView.setVisibility(View.VISIBLE);
+                        emptyView.setVisibility(View.GONE);
+                        isRVVisible = true;
+                    }
+                    notesList = notes;
+                    recyclerViewAdapter.setNotes(notes);
+                }
             }
         });
 
@@ -100,8 +113,8 @@ public class MainActivity extends AppCompatActivity {
         Date date = Calendar.getInstance().getTime();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy, h:mm a");
         String formattedDate = simpleDateFormat.format(date);
-        WriteFragment writeFragment = WriteFragment.newInstance(formattedDate);
-        writeFragment.show(fragmentManager,"");
+        AddNoteFragment addNoteFragment = AddNoteFragment.newInstance(formattedDate);
+        addNoteFragment.show(fragmentManager,"");
     }
 
 }

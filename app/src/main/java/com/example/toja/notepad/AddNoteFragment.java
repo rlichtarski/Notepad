@@ -15,7 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class WriteFragment extends DialogFragment {
+public class AddNoteFragment extends DialogFragment {
 
     private TextView mDateTextView;
     private EditText mEditText;
@@ -24,12 +24,12 @@ public class WriteFragment extends DialogFragment {
     private FloatingActionButton mSaveNoteFAB;
     private String mNote;
 
-    public WriteFragment() {
+    public AddNoteFragment() {
         // Required empty public constructor
     }
 
-    public static WriteFragment newInstance(String noteDate) {
-        WriteFragment fragment = new WriteFragment();
+    public static AddNoteFragment newInstance(String noteDate) {
+        AddNoteFragment fragment = new AddNoteFragment();
         Bundle args = new Bundle();
         args.putString("noteDate", noteDate);
         fragment.setArguments(args);
@@ -64,7 +64,7 @@ public class WriteFragment extends DialogFragment {
                 if(!note.isEmpty()) {     //if you're trying to close the fragment, but the note is still not saved
                     showAlertDialog(note);
                 } else {
-                    WriteFragment.this.dismiss();
+                    AddNoteFragment.this.dismiss();
                 }
             }
         });
@@ -77,7 +77,7 @@ public class WriteFragment extends DialogFragment {
                     Toast.makeText(getActivity(),"The note is empty",Toast.LENGTH_SHORT).show();
                 } else {
                     addNoteToDatabase(mNote, mNoteDate);
-                    WriteFragment.this.dismiss();
+                    AddNoteFragment.this.dismiss();
                 }
             }
         });
@@ -104,13 +104,13 @@ public class WriteFragment extends DialogFragment {
                     public void onClick(DialogInterface dialogInterface,int i) {
                         addNoteToDatabase(note, mNoteDate);
 
-                        WriteFragment.this.dismiss();
+                        AddNoteFragment.this.dismiss();
                     }
                 })
                 .setNegativeButton(R.string.discard,new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface,int i) {
-                        WriteFragment.this.dismiss();
+                        AddNoteFragment.this.dismiss();
                     }
                 });
         builder.create();
