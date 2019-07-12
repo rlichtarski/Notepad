@@ -6,6 +6,8 @@ import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.example.toja.notepad.database.model.Note;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.fragment.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -16,19 +18,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class EditNoteFragment extends DialogFragment {
+    private static final String ARG_POSITION_ID = "id";
+    private static final String ARG_POSITION_NOTE = "note";
+    private static final String ARG_POSITION_DATE = "date";
 
     private EditText mEditText;
     private FloatingActionButton mSaveMemoFAB, mCancelMemoFAB;
     private TextView mCreatedDateTextView;
     private String mNoteDate, mNoteInEditText;
-    private long mId;
+    private int mId;
 
-    public static EditNoteFragment newInstance(String noteDate, String noteInEditText, long id) {
+    public static EditNoteFragment newInstance(int id , String noteDate, String noteInEditText) {
         EditNoteFragment fragment = new EditNoteFragment();
         Bundle args = new Bundle();
-        args.putString("noteDate", noteDate);
-        args.putString("noteInEditText", noteInEditText);
-        args.putLong("clickedID", id);
+        args.putInt(ARG_POSITION_ID, id);
+        args.putString(ARG_POSITION_DATE, noteDate);
+        args.putString(ARG_POSITION_NOTE, noteInEditText);
         fragment.setArguments(args);
         return fragment;
     }
@@ -36,9 +41,9 @@ public class EditNoteFragment extends DialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mNoteDate = getArguments().getString("noteDate");
-        mNoteInEditText = getArguments().getString("noteInEditText");
-        mId = getArguments().getLong("clickedID");
+        mId = getArguments().getInt(ARG_POSITION_ID);
+        mNoteDate = getArguments().getString(ARG_POSITION_DATE);
+        mNoteInEditText = getArguments().getString(ARG_POSITION_NOTE);
     }
 
     @Nullable
@@ -56,11 +61,15 @@ public class EditNoteFragment extends DialogFragment {
         mSaveMemoFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String newNote = mEditText.getText().toString();
-                if(newNote.equals(mNoteInEditText)) {
+                String note = mEditText.getText().toString();
+                if(note.equals(mNoteInEditText)) {
                     Toast.makeText(getActivity(),"The note is not changed",Toast.LENGTH_SHORT).show();
-                    EditNoteFragment.this.dismiss();
+                } else {
+                    Note newNote = new Note(note, mNoteDate);
+                    newNote.setId(mId);
+                    ((MainActivity)getActivity()).addEditNote(newNote, "update");
                 }
+                EditNoteFragment.this.dismiss();
             }
         });
 
@@ -82,6 +91,8 @@ public class EditNoteFragment extends DialogFragment {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface,int i) {
                                     String note = mEditText.getText().toString();
+                                    Note newNote = new Note(note, mNoteDate);
+                                    ((MainActivity)getActivity()).addEditNote(newNote, "update");
 
                                     EditNoteFragment.this.dismiss();
                                 }

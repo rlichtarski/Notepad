@@ -1,16 +1,12 @@
 package com.example.toja.notepad;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.toja.notepad.database.model.Note;
@@ -21,30 +17,26 @@ import java.util.List;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.NoteRecyclerViewHolder>{
     private Context mContext;
     private List<Note> notesList = new ArrayList<>();
+    private View.OnClickListener itemClickListener;
 
     public RecyclerViewAdapter(Context context) {
         mContext = context;
     }
 
-    public class NoteRecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class NoteRecyclerViewHolder extends RecyclerView.ViewHolder {
         private TextView noteText, dateView;
-        private ItemClickListener itemClickListener;
 
         public NoteRecyclerViewHolder(View itemView) {
             super(itemView);
             noteText = itemView.findViewById(R.id.note);
             dateView = itemView.findViewById(R.id.date);
-            itemView.setOnClickListener(this);
+            itemView.setTag(this);
+            itemView.setOnClickListener(itemClickListener);
         }
+    }
 
-        public void setItemClickListener(ItemClickListener itemClickListener) {
-            this.itemClickListener = itemClickListener;
-        }
-
-        @Override
-        public void onClick(View view) {
-            itemClickListener.onClick(view, getAdapterPosition());
-        }
+    public void setItemClickListener(View.OnClickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
     }
 
     @NonNull
@@ -57,18 +49,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull NoteRecyclerViewHolder holder,int position) {
-        Note note = notesList.get(position);
+        final Note note = notesList.get(position);
         holder.noteText.setText(note.getNote());
-        holder.dateView.setText(note.getDate().toString());
-
-
-       /* holder.setItemClickListener(new ItemClickListener() {
-            @Override
-            public void onClick(View view,int position) {
-                showDialog(note, date);
-            }
-        });*/
-
+        holder.dateView.setText(note.getDate());
     }
 
     public void setNotes(List<Note> notes) {
@@ -78,14 +61,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public Note getNoteAt(int position) {
         return notesList.get(position);
-    }
-
-    private void showDialog(String note, String date) {
-        AppCompatActivity activity = (AppCompatActivity) mContext;                //need the context
-        FragmentManager fragmentManager = activity.getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        NoteDialogFragment noteDialogFragment = NoteDialogFragment.newInstance(note, date);
-        noteDialogFragment.show(fragmentTransaction, "fragmentTransaction");
     }
 
     @Override

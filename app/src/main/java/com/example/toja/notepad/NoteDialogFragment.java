@@ -1,7 +1,5 @@
 package com.example.toja.notepad;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,22 +11,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.toja.notepad.database.model.Note;
-
 public class NoteDialogFragment extends DialogFragment {
+    private static final String ARG_POSITION_ID = "id";
     private static final String ARG_POSITION_NOTE = "note";
     private static final String ARG_POSITION_DATE = "date";
+    private int mId;
     private String mNote;
     private String mDate;
-    private long mId;
 
-    public NoteDialogFragment() {
-        // Required empty public constructor
-    }
-
-    public static NoteDialogFragment newInstance(String note, String date) {
+    public static NoteDialogFragment newInstance(int id, String note, String date) {
         NoteDialogFragment fragment = new NoteDialogFragment();
         Bundle args = new Bundle();
+        args.putInt(ARG_POSITION_ID, id);
         args.putString(ARG_POSITION_NOTE, note);
         args.putString(ARG_POSITION_DATE, date);
         fragment.setArguments(args);
@@ -39,6 +33,7 @@ public class NoteDialogFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            mId = getArguments().getInt(ARG_POSITION_ID);
             mNote = getArguments().getString(ARG_POSITION_NOTE);
             mDate = getArguments().getString(ARG_POSITION_DATE);
         }
@@ -77,7 +72,7 @@ public class NoteDialogFragment extends DialogFragment {
     private void openEditNoteFragment() {
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         FragmentManager fragmentManager = activity.getSupportFragmentManager();
-        EditNoteFragment editNoteFragment = EditNoteFragment.newInstance(mDate, mNote, mId);
+        EditNoteFragment editNoteFragment = EditNoteFragment.newInstance(mId, mDate, mNote);
         editNoteFragment.show(fragmentManager, "");
         NoteDialogFragment.this.dismiss();
     }

@@ -2,11 +2,6 @@ package com.example.toja.notepad.database.model;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-import androidx.room.TypeConverters;
-
-import com.example.toja.notepad.TimestampConverter;
-
-import java.util.Date;
 
 @Entity(tableName = "notes_table")
 public class Note  {

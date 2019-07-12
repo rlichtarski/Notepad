@@ -87,7 +87,7 @@ public class WriteFragment extends DialogFragment {
 
     private void addNoteToDatabase(String note, String date) {
         Note newNote = new Note(note, date);
-        ((MainActivity)getActivity()).addNote(newNote);
+        ((MainActivity)getActivity()).addEditNote(newNote, "insert");
     }
 
     private void showAlertDialog(final String note) {

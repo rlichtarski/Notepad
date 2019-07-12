@@ -1,12 +1,11 @@
 package com.example.toja.notepad;
 
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -24,31 +23,43 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private FloatingActionButton floatingActionButton;
-    private RecyclerViewAdapter mRecyclerViewAdapter;
-    private SQLiteDatabase mDatabase;
+    private RecyclerViewAdapter recyclerViewAdapter;
     private RecyclerView recyclerView;
-    private TextView mEmptyView;
-
+//  private TextView mEmptyView;
     private NoteViewModel noteViewModel;
     private List<Note> notesList;
 
-    public MainActivity() {}
+    private View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) v.getTag();
+            int position = viewHolder.getAdapterPosition();
+            Note note = notesList.get(position);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            NoteDialogFragment noteDialogFragment = NoteDialogFragment.newInstance(note.getId(), note.getNote(), note.getDate());
+            noteDialogFragment.show(fragmentTransaction, "fragmentTransaction");
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mEmptyView = findViewById(R.id.emptyView);
-
-        setRecyclerView();
+//        mEmptyView = findViewById(R.id.emptyView);
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewAdapter = new RecyclerViewAdapter(this);
+        recyclerView.setAdapter(recyclerViewAdapter);
+        recyclerViewAdapter.setItemClickListener(onClickListener);
 
         noteViewModel = ViewModelProviders.of(this).get(NoteViewModel.class);
         noteViewModel.getAllNotes().observe(this,new Observer<List<Note>>() {
             @Override
             public void onChanged(List<Note> notes) {
                 notesList = notes;
-                mRecyclerViewAdapter.setNotes(notes);
+                recyclerViewAdapter.setNotes(notes);
             }
         });
 
@@ -60,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder,int direction) {
-                noteViewModel.delete(mRecyclerViewAdapter.getNoteAt(viewHolder.getAdapterPosition()));
+                noteViewModel.delete(recyclerViewAdapter.getNoteAt(viewHolder.getAdapterPosition()));
             }
         }).attachToRecyclerView(recyclerView);
 
@@ -73,16 +84,15 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void addNote(Note note) {
-        noteViewModel.insert(note);
-    }
-
-
-    private void setRecyclerView() {
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerViewAdapter = new RecyclerViewAdapter(this);
-        recyclerView.setAdapter(mRecyclerViewAdapter);
+    public void addEditNote(Note note, String methodType) {
+        switch (methodType) {
+            case "insert":
+                noteViewModel.insert(note);
+                break;
+            case "update":
+                noteViewModel.update(note);
+                break;
+        }
     }
 
     private void showWriteFragment() {
