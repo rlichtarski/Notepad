@@ -32,6 +32,10 @@ public class NoteRepository {
         new InsertUpdateDeleteAsyncTask(noteDao, "delete").execute(note);
     }
 
+    public void deleteAllNotes() {
+        new InsertUpdateDeleteAsyncTask(noteDao, "deleteAllNotes").execute();
+    }
+
     public LiveData<List<Note>> getAllNotes() {
         return allNotes;
     }
@@ -56,6 +60,9 @@ public class NoteRepository {
                     break;
                 case "delete":
                     noteDao.delete(notes[0]);
+                    break;
+                case "deleteAllNotes":
+                    noteDao.deleteAllNotes();
                     break;
             }
 

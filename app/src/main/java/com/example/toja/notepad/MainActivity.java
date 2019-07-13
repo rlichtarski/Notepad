@@ -4,6 +4,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -121,7 +124,43 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void addEditNote(Note note, String methodType) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.delete_all_notes:
+                AlertDialog.Builder builder;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    builder = new AlertDialog.Builder(MainActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+                } else {
+                    builder = new AlertDialog.Builder(MainActivity.this);
+                }
+
+                builder.setMessage(R.string.delete_question)
+                        .setPositiveButton(R.string.yes,new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface,int i) {
+                                noteViewModel.deleteAllNotes();
+                            }
+                        })
+                        .setNegativeButton(R.string.no,new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface,int i) { }
+                        });
+                builder.create();
+                builder.show();
+                break;
+        }
+        return true;
+    }
+
+    public void addEditNote(Note note,String methodType) {
         switch (methodType) {
             case "insert":
                 noteViewModel.insert(note);
