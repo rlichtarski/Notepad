@@ -92,8 +92,8 @@ public class EditNoteFragment extends DialogFragment {
                                 public void onClick(DialogInterface dialogInterface,int i) {
                                     String note = mEditText.getText().toString();
                                     Note newNote = new Note(note, mNoteDate);
+                                    newNote.setId(mId);
                                     ((MainActivity)getActivity()).addEditNote(newNote, "update");
-
                                     EditNoteFragment.this.dismiss();
                                 }
                             })
