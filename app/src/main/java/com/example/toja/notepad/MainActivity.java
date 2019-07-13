@@ -27,7 +27,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private FloatingActionButton floatingActionButton;
-    private RecyclerViewAdapter recyclerViewAdapter;
+    private NoteAdapter noteAdapter;
     private RecyclerView recyclerView;
     private TextView emptyView;
     private NoteViewModel noteViewModel;
@@ -55,9 +55,9 @@ public class MainActivity extends AppCompatActivity {
         emptyView = findViewById(R.id.emptyView);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerViewAdapter = new RecyclerViewAdapter(this);
-        recyclerView.setAdapter(recyclerViewAdapter);
-        recyclerViewAdapter.setItemClickListener(onClickListener);
+        noteAdapter = new NoteAdapter();
+        recyclerView.setAdapter(noteAdapter);
+        noteAdapter.setItemClickListener(onClickListener);
 
         noteViewModel = ViewModelProviders.of(this).get(NoteViewModel.class);
         noteViewModel.getAllNotes().observe(this,new Observer<List<Note>>() {
@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                         isRVVisible = true;
                     }
                     notesList = notes;
-                    recyclerViewAdapter.setNotes(notes);
+                    noteAdapter.submitList(notes);
                 }
             }
         });
@@ -98,13 +98,13 @@ public class MainActivity extends AppCompatActivity {
                         .setPositiveButton(R.string.yes,new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface,int i) {
-                                noteViewModel.delete(recyclerViewAdapter.getNoteAt(viewHolder.getAdapterPosition()));
+                                noteViewModel.delete(noteAdapter.getNoteAt(viewHolder.getAdapterPosition()));
                             }
                         })
                         .setNegativeButton(R.string.no,new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface,int i) {
-                                recyclerViewAdapter.notifyItemChanged(viewHolder.getAdapterPosition());  //swipe back a note
+                                noteAdapter.notifyItemChanged(viewHolder.getAdapterPosition());  //swipe back a note
                             }
                         });
                 builder.create();
