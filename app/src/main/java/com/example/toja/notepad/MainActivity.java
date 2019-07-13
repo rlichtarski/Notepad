@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -147,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialogInterface,int i) {
                                 noteViewModel.deleteAllNotes();
+                                Toast.makeText(MainActivity.this,"Deleted all notes",Toast.LENGTH_SHORT).show();
                             }
                         })
                         .setNegativeButton(R.string.no,new DialogInterface.OnClickListener() {
