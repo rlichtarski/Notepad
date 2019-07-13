@@ -10,6 +10,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +34,7 @@ public class AddNoteFragment extends DialogFragment {
     public static AddNoteFragment newInstance(String noteDate) {
         AddNoteFragment fragment = new AddNoteFragment();
         Bundle args = new Bundle();
-        args.putString("noteDate", noteDate);
+        args.putString("noteDate",noteDate);
         fragment.setArguments(args);
         return fragment;
     }
@@ -44,7 +45,7 @@ public class AddNoteFragment extends DialogFragment {
         if (getArguments() != null) {
             mNoteDate = getArguments().getString("noteDate");
         }
-        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,
@@ -53,7 +54,6 @@ public class AddNoteFragment extends DialogFragment {
 
         setCancelable(false);
         mEditText = rootView.findViewById(R.id.editText);
-        mEditText.setText(mNoteDate);
         mDiscardNoteFAB = rootView.findViewById(R.id.cancelMemoFAB);
         mSaveNoteFAB = rootView.findViewById(R.id.saveMemoFAB);
         mDateTextView = rootView.findViewById(R.id.createdDateTextView);
@@ -64,7 +64,7 @@ public class AddNoteFragment extends DialogFragment {
             public void onClick(View view) {
                 String note = mEditText.getText().toString();
 
-                if(!note.isEmpty()) {     //if you're trying to close the fragment, but the note is still not saved
+                if (!note.isEmpty()) {     //if you're trying to close the fragment, but the note is still not saved
                     showAlertDialog(note);
                 } else {
                     AddNoteFragment.this.dismiss();
@@ -76,10 +76,10 @@ public class AddNoteFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 mNote = mEditText.getText().toString();
-                if(mNote.trim().length() == 0) {
+                if (mNote.trim().length() == 0) {
                     Toast.makeText(getActivity(),"The note is empty",Toast.LENGTH_SHORT).show();
                 } else {
-                    addNoteToDatabase(mNote, mNoteDate);
+                    addNoteToDatabase(mNote,mNoteDate);
                     AddNoteFragment.this.dismiss();
                 }
             }
@@ -88,15 +88,15 @@ public class AddNoteFragment extends DialogFragment {
         return rootView;
     }
 
-    private void addNoteToDatabase(String note, String date) {
-        Note newNote = new Note(note, date);
-        ((MainActivity)getActivity()).addEditNote(newNote, "insert");
+    private void addNoteToDatabase(String note,String date) {
+        Note newNote = new Note(note,date);
+        ((MainActivity) getActivity()).addEditNote(newNote,"insert");
     }
 
     private void showAlertDialog(final String note) {
         AlertDialog.Builder builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder = new AlertDialog.Builder(getActivity(), android.R.style.Theme_Material_Dialog_Alert);
+            builder = new AlertDialog.Builder(getActivity(),android.R.style.Theme_Material_Dialog_Alert);
         } else {
             builder = new AlertDialog.Builder(getActivity());
         }
@@ -105,7 +105,7 @@ public class AddNoteFragment extends DialogFragment {
                 .setPositiveButton(R.string.save,new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface,int i) {
-                        addNoteToDatabase(note, mNoteDate);
+                        addNoteToDatabase(note,mNoteDate);
 
                         AddNoteFragment.this.dismiss();
                     }

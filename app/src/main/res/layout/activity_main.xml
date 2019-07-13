@@ -34,7 +34,6 @@
         android:clickable="true"
         android:focusable="true"
         app:backgroundTint="@color/fabColor"
-        android:src="@drawable/baseline_add_white"
-        />
+        android:src="@drawable/baseline_add_white" />
 
 </RelativeLayout>

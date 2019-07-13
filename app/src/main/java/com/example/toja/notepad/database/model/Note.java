@@ -9,7 +9,6 @@ public class Note  {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String note;
-    //@TypeConverters(TimestampConverter.class)
     private String date;
 
     public void setId(int id) {

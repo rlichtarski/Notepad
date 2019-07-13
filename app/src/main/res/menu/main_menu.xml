@@ -5,5 +5,4 @@
         android:id="@+id/delete_all_notes"
         android:title="@string/delete_all_notes"
         app:showAsAction="never"/>
-
 </menu>
