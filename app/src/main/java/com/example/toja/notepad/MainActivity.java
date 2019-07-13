@@ -1,5 +1,8 @@
 package com.example.toja.notepad;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -83,8 +86,29 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder,int direction) {
-                noteViewModel.delete(recyclerViewAdapter.getNoteAt(viewHolder.getAdapterPosition()));
+            public void onSwiped(final RecyclerView.ViewHolder viewHolder,int direction) {
+                AlertDialog.Builder builder;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    builder = new AlertDialog.Builder(MainActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+                } else {
+                    builder = new AlertDialog.Builder(MainActivity.this);
+                }
+
+                builder.setMessage(R.string.delete_question)
+                        .setPositiveButton(R.string.yes,new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface,int i) {
+                                noteViewModel.delete(recyclerViewAdapter.getNoteAt(viewHolder.getAdapterPosition()));
+                            }
+                        })
+                        .setNegativeButton(R.string.no,new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface,int i) {
+                                recyclerViewAdapter.notifyItemChanged(viewHolder.getAdapterPosition());  //swipe back a note
+                            }
+                        });
+                builder.create();
+                builder.show();
             }
         }).attachToRecyclerView(recyclerView);
 
