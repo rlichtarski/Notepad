@@ -37,14 +37,6 @@ public class AddNoteFragment extends DialogFragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mNoteDate = getArguments().getString("noteDate");
-        }
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_write,container,false);
@@ -115,11 +107,5 @@ public class AddNoteFragment extends DialogFragment {
                 });
         builder.create();
         builder.show();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString("EditText", mEditText.getText().toString());
     }
 }
