@@ -49,8 +49,8 @@ public class AddNoteFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_write,container,false);
 
+        setCancelable(false);
         mEditText = rootView.findViewById(R.id.editText);
-
         mDiscardNoteFAB = rootView.findViewById(R.id.cancelMemoFAB);
         mSaveNoteFAB = rootView.findViewById(R.id.saveMemoFAB);
         mDateTextView = rootView.findViewById(R.id.createdDateTextView);

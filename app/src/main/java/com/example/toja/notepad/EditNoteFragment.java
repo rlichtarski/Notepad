@@ -4,18 +4,19 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.example.toja.notepad.database.model.Note;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import androidx.fragment.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+
+import com.example.toja.notepad.database.model.Note;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class EditNoteFragment extends DialogFragment {
     private static final String ARG_POSITION_ID = "id";
@@ -51,6 +52,7 @@ public class EditNoteFragment extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_write, container, false);
 
+        setCancelable(false);
         mCreatedDateTextView = rootView.findViewById(R.id.createdDateTextView);
         mCreatedDateTextView.setText(mNoteDate);
         mEditText = rootView.findViewById(R.id.editText);
