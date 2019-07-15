@@ -134,11 +134,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.delete_all_notes:
+        if (item.getItemId() == R.id.delete_all_notes) {
+            if(!isRVVisible) {   //if recycler view is not visible it means there are no notes
+                Toast.makeText(this,"There aren't any notes to delete",Toast.LENGTH_SHORT).show();
+            } else {
                 AlertDialog.Builder builder;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    builder = new AlertDialog.Builder(MainActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+                    builder = new AlertDialog.Builder(MainActivity.this,android.R.style.Theme_Material_Dialog_Alert);
                 } else {
                     builder = new AlertDialog.Builder(MainActivity.this);
                 }
@@ -153,11 +155,12 @@ public class MainActivity extends AppCompatActivity {
                         })
                         .setNegativeButton(R.string.no,new DialogInterface.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialogInterface,int i) { }
+                            public void onClick(DialogInterface dialogInterface,int i) {
+                            }
                         });
                 builder.create();
                 builder.show();
-                break;
+            }
         }
         return true;
     }
